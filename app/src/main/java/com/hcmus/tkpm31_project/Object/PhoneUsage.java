@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity
+@Entity(tableName = "PhoneUsage")
 public class PhoneUsage {
     @NonNull
     @PrimaryKey (autoGenerate = true)
