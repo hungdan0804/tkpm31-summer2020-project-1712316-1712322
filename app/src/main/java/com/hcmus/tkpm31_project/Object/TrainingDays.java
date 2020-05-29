@@ -11,10 +11,12 @@ public class TrainingDays  {
     @NonNull
     @PrimaryKey (autoGenerate = true)
     private int _tdID;
+    private int _habitID;
     private Date _createdDate;
     private boolean _isMark;
 
-    public TrainingDays(boolean _isMark) {
+    public TrainingDays(int _habitID,boolean _isMark) {
+        this._habitID =_habitID;
         this._isMark = _isMark;
         _createdDate=new Date();
     }
@@ -41,5 +43,13 @@ public class TrainingDays  {
 
     public void set_isMark(boolean _isMark) {
         this._isMark = _isMark;
+    }
+
+    public int get_habitID() {
+        return _habitID;
+    }
+
+    public void set_habitID(int _habitID) {
+        this._habitID = _habitID;
     }
 }
