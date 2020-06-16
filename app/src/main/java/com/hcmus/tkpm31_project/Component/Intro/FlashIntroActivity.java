@@ -1,4 +1,4 @@
-package com.hcmus.tkpm31_project;
+package com.hcmus.tkpm31_project.Component.Intro;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -9,11 +9,12 @@ import android.widget.TextView;
 import com.hcmus.tkpm31_project.Object.TrainingDays;
 import com.hcmus.tkpm31_project.ObjectRelationship.HabitWithReminder;
 import com.hcmus.tkpm31_project.ObjectRelationship.HabitWithTraningDays;
+import com.hcmus.tkpm31_project.R;
 import com.hcmus.tkpm31_project.Util.DatabaseHelper;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class FlashIntroActivity extends AppCompatActivity {
 
     private DatabaseHelper databaseHelper;
     private static final String DATABASE_NAME = "Project_Android";
