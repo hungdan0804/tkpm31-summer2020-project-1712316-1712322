@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/dot_light_screen"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Component.Intro.FlashIntroActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="@string/btn_signin"
-            android:textColor="@color/bg_screen"
+            android:textColor="@color/dot_light_screen"
             android:background="@drawable/ic_btn_signinform"/>
         <Button
             android:id="@+id/btn_signup"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:text="@string/btn_signup"
             android:layout_marginTop="30dp"
-            android:textColor="@color/bg_screen"
+            android:textColor="@color/dot_light_screen"
             android:background="@drawable/ic_btn_signinform"/>
     </LinearLayout>
     <LinearLayout
