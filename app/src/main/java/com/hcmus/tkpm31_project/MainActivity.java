@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = (TextView) findViewById(R.id.txt);
 
         databaseHelper = Room.databaseBuilder(getApplicationContext(), DatabaseHelper.class, DATABASE_NAME).fallbackToDestructiveMigration()
                 .build();
@@ -37,16 +36,16 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        }).start();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<HabitWithReminder> habits = databaseHelper.habitDAO().loadHabitsWithReminders();
-                if(habits.size()==0){
-                    textView.setText("Size == 0");
-                }else {
-                    textView.setText("id: " + habits.get(0).reminders.get(0).get_reminderID());
-                }
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                List<HabitWithReminder> habits = databaseHelper.habitDAO().loadHabitsWithReminders();
+//                if(habits.size()==0){
+//                    textView.setText("Size == 0");
+//                }else {
+//                    textView.setText("id: " + habits.get(0).reminders.get(0).get_reminderID());
+//                }
+//            }
+//        }).start();
     }
 }
