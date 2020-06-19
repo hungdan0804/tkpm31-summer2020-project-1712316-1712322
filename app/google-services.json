@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "8658735499",
+    "firebase_url": "https://doanthietke-71e53.firebaseio.com",
+    "project_id": "doanthietke-71e53",
+    "storage_bucket": "doanthietke-71e53.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8658735499:android:79be56142b9aea4d021f8e",
+        "android_client_info": {
+          "package_name": "com.hcmus.tkpm31_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8658735499-u3pft58eqsim6rdc7nu73v4911n3rltp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOIHCyfO-FSE2vIpqhnoMW6kgT1t-zLtg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "8658735499-u3pft58eqsim6rdc7nu73v4911n3rltp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#80b6d9</color>
+    <color name="colorPrimaryDark">#80b6d9</color>
     <color name="colorAccent">#D81B60</color>
 
     <!-- Screens background color-->
@@ -10,7 +10,6 @@
     <!-- dots inactive colors -->
     <color name="dot_dark_screen">#80b6d9</color>
 
-
     <!-- dots active colors -->
     <color name="dot_light_screen">#ffffff</color>
 
@@ -18,6 +17,8 @@
     <!-- stroke color -->
     <color name="stroke_color">#E5E5E5</color>
 
+    <color name="google_color">#dc4335</color>
+    <color name="facebook_color">#4b6cab</color>
     <array name="array_dot_active">
         <item>@color/dot_light_screen</item>
         <item>@color/dot_light_screen</item>
