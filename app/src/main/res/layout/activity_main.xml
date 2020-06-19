@@ -40,22 +40,22 @@
             android:textStyle="bold"
             android:textSize="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_10sdp"/>
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_signin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="@string/btn_signin"
             android:textColor="@color/dot_light_screen"
-            android:background="@drawable/ic_btn_signinform"/>
-        <Button
+            app:cornerRadius="@dimen/_20sdp"/>
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_signup"
             android:layout_marginTop="30dp"
             android:textColor="@color/dot_light_screen"
-            android:background="@drawable/ic_btn_signinform"/>
+            app:cornerRadius="@dimen/_20sdp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"

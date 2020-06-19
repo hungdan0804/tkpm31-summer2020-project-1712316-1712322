@@ -1,52 +1,48 @@
 package com.hcmus.tkpm31_project.Component.Intro;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
 
-import com.hcmus.tkpm31_project.Object.TrainingDays;
-import com.hcmus.tkpm31_project.ObjectRelationship.HabitWithReminder;
-import com.hcmus.tkpm31_project.ObjectRelationship.HabitWithTraningDays;
+import com.google.firebase.FirebaseApp;
+import com.hcmus.tkpm31_project.Component.signin.SignInActivity;
+import com.hcmus.tkpm31_project.Component.signup.SignUpActivity;
 import com.hcmus.tkpm31_project.R;
-import com.hcmus.tkpm31_project.Util.DatabaseHelper;
 
-import java.util.List;
+public class FlashIntroActivity extends AppCompatActivity implements View.OnClickListener{
 
-public class FlashIntroActivity extends AppCompatActivity {
-
-    private DatabaseHelper databaseHelper;
-    private static final String DATABASE_NAME = "Project_Android";
-    private TextView textView;
+    private Button btn_signin;
+    private Button btn_signup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FirebaseApp.initializeApp(this);
 
+        initView();
+        registerListener();
+    }
 
-        databaseHelper = Room.databaseBuilder(getApplicationContext(), DatabaseHelper.class, DATABASE_NAME).fallbackToDestructiveMigration()
-                .build();
+    private void registerListener() {
+        btn_signin.setOnClickListener(this);
+        btn_signup.setOnClickListener(this);
+    }
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                TrainingDays trainingDays = new TrainingDays(1,true);
-//                databaseHelper.trainingDaysDAO().insertOnlySingleTraningDays(trainingDays);
-//            }
-//        }).start();
+    private void initView() {
+        btn_signin=(Button)findViewById(R.id.btn_signin);
+        btn_signup=(Button)findViewById(R.id.btn_signup);
+    }
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                List<HabitWithReminder> habits = databaseHelper.habitDAO().loadHabitsWithReminders();
-//                if(habits.size()==0){
-//                    textView.setText("Size == 0");
-//                }else {
-//                    textView.setText("id: " + habits.get(0).reminders.get(0).get_reminderID());
-//                }
-//            }
-//        }).start();
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_signup: startActivity(new Intent(this, SignUpActivity.class));break;
+            case R.id.btn_signin: startActivity(new Intent(this, SignInActivity.class));break;
+            default: break;
+        }
     }
 }

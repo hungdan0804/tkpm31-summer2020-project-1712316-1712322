@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/dot_light_screen"
+    android:layout_height="match_parent"
+    tools:context=".Component.Intro.FlashIntroActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:layout_alignParentTop="true">
+
+        <View
+            android:id="@+id/rectangle_1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_150sdp"
+            android:background="@drawable/ic_decor_intro1" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/signin_form"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:src="@drawable/icon_app"
+            android:layout_marginTop="@dimen/_110sdp"
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:id="@+id/txt_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textSize="@dimen/_10sdp"
+            android:textColor="@color/design_default_color_error"
+            android:textAlignment="center"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/username_label"
+            android:textColorHint="@color/bg_screen"
+            app:boxCornerRadiusTopStart="@dimen/_15sdp"
+            app:boxCornerRadiusTopEnd="@dimen/_15sdp"
+            app:boxCornerRadiusBottomEnd="@dimen/_15sdp"
+            app:boxCornerRadiusBottomStart="@dimen/_15sdp"
+            app:errorEnabled="true"
+            style="@style/TextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/bg_screen"
+                android:maxLines="1"
+                android:maxLength="20"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/bg_screen"
+                android:inputType="textNoSuggestions"
+                android:imeOptions="flagForceAscii"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password_label"
+            android:textColorHint="@color/bg_screen"
+            app:boxCornerRadiusTopStart="@dimen/_15sdp"
+            app:boxCornerRadiusTopEnd="@dimen/_15sdp"
+            app:boxCornerRadiusBottomEnd="@dimen/_15sdp"
+            app:boxCornerRadiusBottomStart="@dimen/_15sdp"
+            app:errorEnabled="true"
+            style="@style/TextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/bg_screen"
+                android:maxLines="1"
+                android:maxLength="20"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/bg_screen"
+                android:inputType="textPassword"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_signin_submit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/btn_signin"
+            android:textSize="@dimen/_12sdp"
+            app:backgroundTint="@color/dot_light_screen"
+            android:textColor="@color/bg_screen"
+            app:cornerRadius="@dimen/_20sdp"
+            app:strokeWidth="@dimen/_1sdp"
+            app:strokeColor="@color/bg_screen" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_signin_google"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:iconGravity="start"
+            app:icon="@drawable/google_icon"
+            app:iconSize="@dimen/_30sdp"
+            app:iconTint="@null"
+            android:text="@string/google_signin"
+            android:textSize="@dimen/_12sdp"
+            app:backgroundTint="@color/google_color"
+            android:textColor="@color/dot_light_screen"
+            app:cornerRadius="@dimen/_20sdp"
+            app:strokeWidth="@dimen/_1sdp"
+            app:strokeColor="@color/google_color"
+            style="@style/Widget.MaterialComponents.Button.Icon"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_signin_facebook"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textSize="@dimen/_12sdp"
+            android:text="@string/facebook_singin"
+            app:backgroundTint="@color/facebook_color"
+            android:textColor="@color/dot_light_screen"
+            app:cornerRadius="@dimen/_20sdp"
+            app:strokeWidth="@dimen/_1sdp"
+            app:strokeColor="@color/facebook_color"
+            app:iconGravity="start"
+            app:icon="@drawable/facebook_icon"
+            app:iconTintMode="screen"
+            app:iconSize="@dimen/_30sdp"
+            app:iconTint="@null"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_alignParentBottom="true">
+        <View
+            android:id="@+id/rectangle_2"
+            android:layout_width="match_parent"
+            android:layout_height="185.97dp"
+            android:background="@drawable/ic_decor_intro2"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -31,4 +31,16 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0-beta2"
 
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
+
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    // For control over item selection of both touch and mouse driven selection
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc01"
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.firebase:firebase-database:19.3.0'
+    implementation 'com.google.firebase:firebase-analytics:17.4.3'
+
 }
+apply plugin: 'com.google.gms.google-services'

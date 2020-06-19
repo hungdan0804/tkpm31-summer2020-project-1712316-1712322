@@ -17,4 +17,21 @@
     <string name="btn_signin">Sign in</string>
     <string name="btn_signup">Sign up</string>
 
+    //signup activity
+    <string name="username_label">Username</string>
+    <string name="password_label">Password</string>
+    <string name="conf_password_label">Confirm Password</string>
+    <string name="email_label">Email</string>
+    <string name="phoneNum_label">PhoneNumber</string>
+    <string name="msg_error_1">PLEASE FILL ALL FIELDS</string>
+    <string name="msg_error_2">CONFIRM PASSWORD DOES NOT MATCH</string>
+    <string name="msg_error_3">PASSWORD LESS THAN 7 CHARACTERS</string>
+    <string name="msg_erorr_4">INVALID EMAIL ADDRESS</string>
+    <string name="msg_error_5">USERNAME LESS THAN 7 CHARACTERS</string>
+    <string name="msg_error_6">USERNAME ALREADY EXISTS</string>
+
+    //signin activity
+    <string name="google_signin">SIGN IN WITH GOOGLE</string>
+    <string name="facebook_singin">SIGN IN WITH FACEBOOK</string>
+
 </resources>
