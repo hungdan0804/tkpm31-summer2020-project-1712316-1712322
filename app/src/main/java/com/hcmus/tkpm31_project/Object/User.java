@@ -7,17 +7,17 @@ public class User {
     protected String username;
     protected String password;
     protected String email;
-    protected String phoneNum;
+    protected String phoneNumber;
 
     public User(){
 
     }
 
-    public User(String username, String password, String email, String phoneNum) {
+    public User(String username, String password, String email, String phoneNumber) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.phoneNum = phoneNum;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getUsername() {
@@ -45,11 +45,11 @@ public class User {
     }
 
     public String getPhoneNum() {
-        return phoneNum;
+        return phoneNumber;
     }
 
     public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
+        this.phoneNumber = phoneNum;
     }
 
     public Map<String,Object> toMap(){
@@ -57,7 +57,7 @@ public class User {
         res.put("username",this.username);
         res.put("password",this.password);
         res.put("email",this.email);
-        res.put("phoneNumber",this.phoneNum);
+        res.put("phoneNumber",this.phoneNumber);
         return res;
     }
 }

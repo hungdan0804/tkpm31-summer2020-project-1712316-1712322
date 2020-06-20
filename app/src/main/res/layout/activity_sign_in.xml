@@ -20,6 +20,24 @@
             android:background="@drawable/ic_decor_intro1" />
     </LinearLayout>
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:indeterminate="true"
+            android:indeterminateTintMode="src_atop"
+            android:indeterminateTint="@color/bg_screen"
+            style="@android:style/Widget.Material.Light.ProgressBar.Large"
+            />
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/signin_form"
         android:layout_width="@dimen/_250sdp"
         android:layout_height="match_parent"
@@ -110,6 +128,14 @@
             app:strokeWidth="@dimen/_1sdp"
             app:strokeColor="@color/bg_screen" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textStyle="bold"
+            android:textSize="@dimen/_12sdp"
+            android:text="@string/msg_or"/>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_signin_google"
             android:layout_width="match_parent"
@@ -128,24 +154,6 @@
             app:strokeColor="@color/google_color"
             style="@style/Widget.MaterialComponents.Button.Icon"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_signin_facebook"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:textSize="@dimen/_12sdp"
-            android:text="@string/facebook_singin"
-            app:backgroundTint="@color/facebook_color"
-            android:textColor="@color/dot_light_screen"
-            app:cornerRadius="@dimen/_20sdp"
-            app:strokeWidth="@dimen/_1sdp"
-            app:strokeColor="@color/facebook_color"
-            app:iconGravity="start"
-            app:icon="@drawable/facebook_icon"
-            app:iconTintMode="screen"
-            app:iconSize="@dimen/_30sdp"
-            app:iconTint="@null"
-            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
