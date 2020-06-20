@@ -20,6 +20,24 @@
             android:background="@drawable/ic_decor_intro1" />
     </LinearLayout>
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:indeterminate="true"
+            android:indeterminateTintMode="src_atop"
+            android:indeterminateTint="@color/bg_screen"
+            style="@android:style/Widget.Material.Light.ProgressBar.Large"
+            />
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/signup_form"
         android:layout_width="@dimen/_250sdp"
         android:layout_height="match_parent"

@@ -8,23 +8,37 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.firebase.FirebaseApp;
+import com.hcmus.tkpm31_project.Component.habitHome.HabitHomeActivity;
 import com.hcmus.tkpm31_project.Component.signin.SignInActivity;
 import com.hcmus.tkpm31_project.Component.signup.SignUpActivity;
 import com.hcmus.tkpm31_project.R;
+import com.hcmus.tkpm31_project.Util.CurrentUser;
 
 public class FlashIntroActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button btn_signin;
     private Button btn_signup;
+    private CurrentUser curUser;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initVariable();
+        if(curUser.getCurrentUser()!=null){
+            finish();
+            startActivity(intent);
+        }
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(this);
 
         initView();
         registerListener();
+    }
+
+    private void initVariable() {
+        curUser=new CurrentUser(this);
+        intent = new Intent(this, HabitHomeActivity.class);
     }
 
     private void registerListener() {

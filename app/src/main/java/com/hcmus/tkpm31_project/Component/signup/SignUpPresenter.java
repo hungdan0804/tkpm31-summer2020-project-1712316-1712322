@@ -3,17 +3,14 @@ package com.hcmus.tkpm31_project.Component.signup;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tkpm31_project.Object.User;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +52,7 @@ public class SignUpPresenter implements SignUpContract.Presenter{
                     }else{
 
                         String key = ref.push().getKey();
-                        User newUser= new User(username,password,email,phoneNumber);
+                        User newUser= new User(username, BCrypt.hashpw(password,BCrypt.gensalt()),email,phoneNumber);
                         Map<String,Object> userValue= newUser.toMap();
                         Map<String, Object> childUpdates = new HashMap<>();
                         childUpdates.put("/user/" +key, userValue);

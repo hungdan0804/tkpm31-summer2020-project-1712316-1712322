@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -25,6 +26,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
     private MaterialButton btn_signup_submit;
     private TextView txt_error;
     private SignUpPresenter signUpPresenter;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
             @Override
             public void onClick(View v) {
                 txt_error.setText("");
+                progressBar.setVisibility(View.VISIBLE);
                 signup();
             }
         });
@@ -61,13 +64,12 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
        phoneNum.isEmpty()){
             signupFailure(1);
        }else{
+
             signUpPresenter.handleSignUp(username,password,conf_password,email,phoneNum);
        }
     }
 
     private void initView() {
-        linearLayout=(LinearLayout)findViewById(R.id.signup_form);
-        linearLayout.bringToFront();
         edt_username=(TextInputEditText)findViewById(R.id.edt_username);
         edt_password=(TextInputEditText)findViewById(R.id.edt_password);
         edt_conf_password=(TextInputEditText)findViewById(R.id.edt_conf_password);
@@ -75,18 +77,24 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
         edt_phoneNum=(TextInputEditText)findViewById(R.id.edt_phoneNum);
         btn_signup_submit=(MaterialButton)findViewById(R.id.btn_signup_submit);
         txt_error=(TextView)findViewById(R.id.txt_error);
+        progressBar=(ProgressBar)findViewById(R.id.progress_bar);
+        progressBar.bringToFront();
+        linearLayout=(LinearLayout)findViewById(R.id.signup_form);
+        linearLayout.bringToFront();
     }
 
 
 
     @Override
     public void signupSuccess() {
+        progressBar.setVisibility(View.INVISIBLE);
         finish();
         startActivity(new Intent(this, SignInActivity.class));
     }
 
     @Override
     public void signupFailure(int error) {
+        progressBar.setVisibility(View.INVISIBLE);
         switch (error){
             case 1: checkEmptyField();txt_error.setText(R.string.msg_error_1);break;
             case 2: edt_conf_password.setError("CONFIRM PASSWORD DOES NOT MATCH"); txt_error.setText(R.string.msg_error_2);break;
