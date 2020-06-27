@@ -37,4 +37,16 @@
     <string name="msg_error_8">PASSWORD INCORRECT</string>
     <string name="msg_or">OR</string>
 
+    //menu
+    <string name="title_habit">Habits</string>
+    <string name="title_spending">Spending</string>
+
+    //habit home
+    <string name="msg_query_hint">Search your habit</string>
+    <string name="msg_today">Today</string>
+    <string name="msg_total">Total</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

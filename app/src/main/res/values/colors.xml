@@ -3,7 +3,7 @@
     <color name="colorPrimary">#85C3E9</color>
     <color name="colorPrimaryDark">#85C3E9</color>
     <color name="colorAccent">#D81B60</color>
-
+    <color name="black">#000000</color>
     <!-- Screens background color-->
     <color name="bg_screen">#85C3E9</color>
 
@@ -16,6 +16,9 @@
 
     <!-- stroke color -->
     <color name="stroke_color">#E5E5E5</color>
+
+    <!-- search box color-->
+    <color name="search_box_color">#F6F6F6</color>
 
     <color name="google_color">#dc4335</color>
     <color name="facebook_color">#4b6cab</color>
