@@ -1,9 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_screen"
+    android:id="@+id/coordinate"
     tools:context=".Component.habitHome.HabitHomeActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:minHeight="@dimen/_35sdp"
+        android:layout_height="wrap_content">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_160sdp"
+            app:contentScrim="?attr/colorPrimary"
+            app:toolbarId="@+id/toolbar"
+            android:fitsSystemWindows="true"
+            app:titleEnabled="false"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_35sdp"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:contentInsetStart="0dp"
+                app:titleTextColor="@android:color/white"
+                >
+                <LinearLayout
+                    android:padding="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/icon_app"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/decor_circle"
+                        android:outlineProvider="background"
+                        android:layout_weight="1"
+                        android:src="@drawable/icon_app"/>
+
+                    <TextView
+                        android:id="@+id/app_title"
+                        android:layout_width="@dimen/_150sdp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:layout_gravity="center"
+                        android:text="@string/app_name"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_16sdp"
+                        android:textColor="@color/cardview_light_background"
+                        android:gravity="center_vertical"/>
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_account_circle_white_24dp"
+                        android:scaleType="fitCenter"
+                        android:background="@drawable/decor_circle"
+
+                        android:layout_weight="1"/>
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+            <SearchView
+                android:id="@+id/search_view"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/decor_search_box"
+                android:iconifiedByDefault="false"
+                android:queryHint="@string/msg_query_hint" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/frame_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/decor_main_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="@dimen/_60sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:backgroundTint="@color/bg_screen"
+        app:tint="@color/cardview_light_background"
+        android:src="@drawable/ic_add_white_24dp"
+        app:layout_anchor="@id/frame_container"
+        app:layout_anchorGravity="bottom|right|end"/>
+
+    <LinearLayout
+        android:animateLayoutChanges="true"
+        android:orientation="horizontal"
+        android:id="@+id/total_box"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="100dp"
+        android:visibility="invisible"
+        app:layout_anchor="@+id/frame_container"
+        app:layout_anchorGravity="center|top"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="@drawable/decor_search_box">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/msg_today"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/msg_total"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
+        app:menu="@menu/navigation"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
