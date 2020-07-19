@@ -46,6 +46,26 @@
     <string name="msg_today">Today</string>
     <string name="msg_total">Total</string>
 
+    //initialize habit
+    <string name="msg_habit_name">Name</string>
+    <string name="msg_hint_habit_name">Input Habit Name</string>
+    <string name="msg_starting_day">Starting day</string>
+    <string name="msg_starting_day_default">Tomorrow</string>
+    <string name="btn_starting_day">Change</string>
+    <string name="msg_trainning_days">Tranning days</string>
+    <string name="msg_days">Days</string>
+    <string name="msg_thumnail">Choose a thumbnail</string>
+    <string name="msg_reminder">Reminder</string>
+    <string name="msg_repetition">Repeitition</string>
+    <string name="msg_repetition_default">Whole week</string>
+    <string name="msg_daily_repetition">Daily repetition</string>
+    <string name="msg_daily_repetition_default">No time set</string>
+    <string name="msg_set_time">Set time</string>
+    <string name="msg_start">start</string>
+    <string name="msg_end">end</string>
+    <string name="msg_description">Description</string>
+    <string name="msg_description_hint">Input a description</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

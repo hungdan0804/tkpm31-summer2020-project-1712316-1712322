@@ -6,7 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Component.habitHome.HabitFragment"
     android:orientation="vertical"
-    android:layout_marginTop="@dimen/_45sdp"
     android:padding="@dimen/_5sdp"
     >
     <androidx.recyclerview.widget.RecyclerView
