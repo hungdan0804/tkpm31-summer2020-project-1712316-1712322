@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,12 +22,18 @@ public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleVi
         public TextView textView;
         public TextView imgView;
         public LinearLayout linearLayout;
+        public TextView spendingTimeTxt;
+        public ImageButton btn_favorite;
+        public ImageButton btn_expand;
         public View view;
         public MyViewHolder(View v) {
             super(v);
             textView = (TextView)v.findViewById(R.id.txt);
             imgView = (TextView)v.findViewById(R.id.img);
             linearLayout = (LinearLayout)v.findViewById(R.id.description);
+            spendingTimeTxt=(TextView)v.findViewById(R.id.spendingTime);
+            btn_favorite = (ImageButton)v.findViewById(R.id.btn_favorite);
+            btn_expand=(ImageButton)v.findViewById(R.id.btn_expand);
             view=v;
 
         }
@@ -110,10 +117,18 @@ public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleVi
             @Override
             public void onClick(View v) {
                 if(holder.linearLayout.getVisibility() == View.GONE){
+                    holder.btn_expand.setImageResource(R.drawable.ic_expand_black_24dp);
                     expand(holder.linearLayout);
                 }else{
+                    holder.btn_expand.setImageResource(R.drawable.ic_expand_more_24dp);
                     collapse(holder.linearLayout);
                 }
+            }
+        });
+        holder.btn_favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }

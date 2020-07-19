@@ -12,9 +12,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.transition.Fade;
 import androidx.transition.Transition;
 import androidx.transition.TransitionManager;
+import androidx.viewpager.widget.ViewPager;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,6 +32,9 @@ import android.widget.TextView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.hcmus.tkpm31_project.Adapter.ViewPagerAdapter;
+import com.hcmus.tkpm31_project.Component.initializeHabit.InitializeHabitActivity;
 import com.hcmus.tkpm31_project.R;
 
 public class HabitHomeActivity extends AppCompatActivity {
@@ -43,6 +48,8 @@ public class HabitHomeActivity extends AppCompatActivity {
     private ImageView imageView;
     private SearchView searchView;
     private TextView app_title;
+    private FloatingActionButton btn_insert;
+    private ViewPager viewPager;
 
 
     @Override
@@ -51,16 +58,12 @@ public class HabitHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_habit_home);
 
         initView();
-        initVariable();
         registerListener();
     }
 
-    private void initVariable() {
-        loadFragment(new HabitFragment(getApplicationContext()));
-    }
+
 
     private void registerListener() {
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -87,6 +90,48 @@ public class HabitHomeActivity extends AppCompatActivity {
                 }
             }
         });
+        btn_insert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getBaseContext(), InitializeHabitActivity.class));
+            }
+        });
+       navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment;
+                switch (item.getItemId()) {
+                    case R.id.navigation_habit:
+                        viewPager.setCurrentItem(0);
+//                        loadFragment(fragment);
+                        return true;
+                    case R.id.navigation_spending:
+                        viewPager.setCurrentItem(1);
+//                        loadFragment(fragment);
+                        return true;
+                }
+                return false;
+            }
+        });
+       viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+           @Override
+           public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+           }
+
+           @Override
+           public void onPageSelected(int position) {
+                switch (position){
+                    case 0: navigation.getMenu().findItem(R.id.navigation_habit).setChecked(true);break;
+                    case 1: navigation.getMenu().findItem(R.id.navigation_spending).setChecked(true);break;
+                }
+           }
+
+           @Override
+           public void onPageScrollStateChanged(int state) {
+
+           }
+       });
     }
 
     private void initView() {
@@ -106,33 +151,12 @@ public class HabitHomeActivity extends AppCompatActivity {
                 RoundedBitmapDrawableFactory.create(res, src);
         dr.setCornerRadius(Math.max(src.getWidth(), src.getHeight()) / 2.0f);
         imageView.setImageDrawable(dr);
+        btn_insert = (FloatingActionButton)findViewById(R.id.btn_insert_habit);
+        viewPager =(ViewPager)findViewById(R.id.view_pager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),0);
+        adapter.addFragment(new HabitFragment(getApplicationContext()),"Habit");
+        adapter.addFragment(new SpedingFragment(),"Habit");
+        viewPager.setAdapter(adapter);
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment fragment;
-            switch (item.getItemId()) {
-                case R.id.navigation_shop:
-                    fragment = new HabitFragment(getApplicationContext());
-                    loadFragment(fragment);
-                    return true;
-                case R.id.navigation_gifts:
-                    fragment = new SpedingFragment();
-                    loadFragment(fragment);
-                    return true;
-            }
-            return false;
-        }
-    };
-
-    private void loadFragment(Fragment fragment) {
-        // load fragment
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
 }

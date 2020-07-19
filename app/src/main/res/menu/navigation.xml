@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_shop"
+        android:id="@+id/navigation_habit"
         android:icon="@drawable/ic_stars_white_24dp"
         android:enabled="true"
         android:title="@string/title_habit" />
 
     <item
-        android:id="@+id/navigation_gifts"
+        android:id="@+id/navigation_spending"
         android:icon="@drawable/ic_access_alarm_white_24dp"
         android:enabled="true"
         android:title="@string/title_spending" />
