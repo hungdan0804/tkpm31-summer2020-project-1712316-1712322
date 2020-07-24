@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="@dimen/_200sdp"
+    android:background="@drawable/decor_search_box"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/msg_type"
+        android:textSize="@dimen/_20sdp"
+        android:textColor="@color/black"
+        android:padding="@dimen/_10sdp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
+
+    <CheckBox
+        android:id="@+id/checkbox_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/msg_day_of_week_1"/>
+    <CheckBox
+        android:id="@+id/checkbox_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/msg_day_of_week_2"/>
+    <CheckBox
+        android:id="@+id/checkbox_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/msg_day_of_week_3"/>
+    <CheckBox
+        android:id="@+id/checkbox_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/msg_day_of_week_4"/>
+    <CheckBox
+        android:id="@+id/checkbox_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/msg_day_of_week_5"/>
+    <CheckBox
+        android:id="@+id/checkbox_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/msg_day_of_week_6"/>
+    <CheckBox
+        android:id="@+id/checkbox_7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/msg_day_of_week_7"/>
+
+</LinearLayout>

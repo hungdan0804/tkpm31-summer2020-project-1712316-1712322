@@ -49,8 +49,10 @@
     //initialize habit
     <string name="msg_habit_name">Name</string>
     <string name="msg_hint_habit_name">Input Habit Name</string>
+    <string name="msg_type">Type</string>
+    <string name="msg_type_default">Others</string>
     <string name="msg_starting_day">Starting day</string>
-    <string name="msg_starting_day_default">Tomorrow</string>
+    <string name="msg_starting_day_default">No date pick</string>
     <string name="btn_starting_day">Change</string>
     <string name="msg_trainning_days">Tranning days</string>
     <string name="msg_days">Days</string>
@@ -65,6 +67,15 @@
     <string name="msg_end">end</string>
     <string name="msg_description">Description</string>
     <string name="msg_description_hint">Input a description</string>
+    <string name="msg_day_of_week_1">Monday</string>
+    <string name="msg_day_of_week_2">Tuesday</string>
+    <string name="msg_day_of_week_3">Wednesday</string>
+    <string name="msg_day_of_week_4">Thursday</string>
+    <string name="msg_day_of_week_5">Friday</string>
+    <string name="msg_day_of_week_6">Saturday</string>
+    <string name="msg_day_of_week_7">Sunday</string>
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -17,8 +17,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_35sdp"
                 android:background="@color/cardview_light_background"
-                app:layout_collapseMode="pin"
-                app:layout_scrollFlags="scroll|enterAlways"
                 app:contentInsetStart="0dp"
                 app:titleTextColor="@android:color/white"
                 >
@@ -51,6 +49,7 @@
                         android:gravity="center_vertical"/>
 
                     <ImageButton
+                        android:id="@+id/btn_insert"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_check_black_24dp"
@@ -58,6 +57,7 @@
                         android:background="@drawable/decor_circle"
                         android:layout_weight="1"/>
                     <ImageButton
+                        android:id="@+id/btn_back"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_close_black_24dp"
@@ -107,6 +107,7 @@
                         android:layout_marginStart="@dimen/_10sdp" />
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_habit_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_8sdp"
@@ -115,7 +116,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/msg_starting_day"
+                        android:text="@string/msg_type"
                         android:textSize="@dimen/_15sdp"
                         android:textColor="@color/black"
                         android:layout_marginStart="@dimen/_10sdp" />
@@ -127,7 +128,43 @@
                         android:layout_marginTop="@dimen/_5sdp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/type_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/msg_type_default"
+                            android:textSize="@dimen/_15sdp"
+                            android:layout_weight="1"
+                            android:layout_gravity="start"
+                            />
+                        <TextView
+                            android:id="@+id/type_change"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/btn_starting_day"
+                            android:textSize="@dimen/_15sdp"
+                            android:textColor="@color/dot_dark_screen"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            />
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/msg_starting_day"
+                        android:textSize="@dimen/_15sdp"
+                        android:textColor="@color/black"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"/>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp">
+
+                        <TextView
+                            android:id="@+id/startingDay_value"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/msg_starting_day_default"
                             android:textSize="@dimen/_15sdp"
@@ -135,7 +172,8 @@
                             android:layout_gravity="start"
                             />
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/startingDay_change"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/btn_starting_day"
                             android:textSize="@dimen/_15sdp"
@@ -159,10 +197,10 @@
                         android:layout_marginStart="@dimen/_8sdp"
                        >
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/daysTranning"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/_15sdp"
-                            android:hint="@string/msg_hint_habit_name"
                             android:layout_weight="5"/>
 
                         <TextView
@@ -202,11 +240,13 @@
                         android:layout_marginStart="@dimen/_10sdp"/>
 
                     <ImageButton
+                        android:id="@+id/thumbnail"
                         android:layout_width="@dimen/_150sdp"
                         android:layout_height="@dimen/_150sdp"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:src="@drawable/ic_add_black_24dp"/>
+                        android:src="@drawable/ic_add_black_24dp"
+                        android:scaleType="fitXY"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
             <com.google.android.material.card.MaterialCardView
@@ -249,7 +289,8 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_5sdp">
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/repetition_days"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/msg_repetition_default"
                             android:textSize="@dimen/_15sdp"
@@ -257,7 +298,8 @@
                             android:layout_gravity="start"
                             />
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/repetition_days_change"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/btn_starting_day"
                             android:textSize="@dimen/_15sdp"
@@ -289,7 +331,8 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_5sdp">
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/start_repetition"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/msg_daily_repetition_default"
                             android:textSize="@dimen/_15sdp"
@@ -297,7 +340,8 @@
                             android:layout_gravity="start"
                             />
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/start_repetition_change"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/msg_set_time"
                             android:textSize="@dimen/_15sdp"
@@ -321,7 +365,8 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_5sdp">
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/end_repetition"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/msg_daily_repetition_default"
                             android:textSize="@dimen/_15sdp"
@@ -329,7 +374,8 @@
                             android:layout_gravity="start"
                             />
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/end_repetition_change"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/msg_set_time"
                             android:textSize="@dimen/_15sdp"
@@ -366,6 +412,7 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_5sdp"/>
                     <EditText
+                        android:id="@+id/edt_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
