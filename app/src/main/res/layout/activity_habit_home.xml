@@ -140,6 +140,7 @@
                 android:textStyle="bold"/>
 
             <TextView
+                android:id="@+id/sub_content_total"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -166,6 +167,7 @@
                 android:textStyle="bold"/>
 
             <TextView
+                android:id="@+id/sub_content_today"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0"

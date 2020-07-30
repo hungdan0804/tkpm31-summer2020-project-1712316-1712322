@@ -9,22 +9,31 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.hcmus.tkpm31_project.Adapter.HabitRecycleViewAdapter;
+import com.hcmus.tkpm31_project.Object.Habit;
 import com.hcmus.tkpm31_project.R;
 
-public class HabitFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
+
+public class HabitFragment extends Fragment implements HabitDataRecievedListener {
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private Context context;
     private OnFragmentInteractionListener mListener;
+    private HabitHomeActivity mActivity;
+    private List<Habit> dataSet;
 
-    public HabitFragment(Context context) {
+
+    public HabitFragment(Context context)
+    {
         this.context = context;
     }
 
@@ -33,6 +42,8 @@ public class HabitFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mActivity=(HabitHomeActivity)getActivity();
+        mActivity.setDataListener(this);
     }
 
     @Override
@@ -45,9 +56,9 @@ public class HabitFragment extends Fragment {
         layoutManager =new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        String[] myDataset ={"abc","def","def","def","def","def","def","def","def","def","def","def","def","def","def","def","def"};
 
-        mAdapter = new HabitRecycleViewAdapter(myDataset);
+        dataSet=new ArrayList<>();
+        mAdapter = new HabitRecycleViewAdapter(dataSet,context);
         recyclerView.setAdapter(mAdapter);
         return rootView;
     }
@@ -71,16 +82,24 @@ public class HabitFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void onDataReceived(List<Habit> model) {
+        dataSet.clear();
+       dataSet.addAll(model);
+       mActivity.runOnUiThread(new Runnable() {
+           @Override
+           public void run() {
+               mAdapter.notifyDataSetChanged();
+           }
+       });
+    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

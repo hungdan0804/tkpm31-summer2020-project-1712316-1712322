@@ -1,5 +1,12 @@
 package com.hcmus.tkpm31_project.Adapter;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +16,27 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hcmus.tkpm31_project.Object.Habit;
 import com.hcmus.tkpm31_project.R;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.PicassoProvider;
+import com.squareup.picasso.Target;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.List;
 
 public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleViewAdapter.MyViewHolder> {
-    private String[] mDataset;
+    private List<Habit> mDataset;
+    private Context context;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -94,8 +115,9 @@ public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleVi
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public HabitRecycleViewAdapter(String[] myDataset) {
-        mDataset = myDataset;
+    public HabitRecycleViewAdapter(List<Habit> myDataset,Context context) {
+        this.mDataset = myDataset;
+        this.context = context;
     }
 
     // Create new views (invoked by the layout manager)
@@ -111,7 +133,25 @@ public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleVi
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        holder.textView.setText(mDataset[position]);
+
+        final ImageView img = new ImageView(context);
+        holder.imgView.setText(mDataset.get(position).get_habitName());
+        File imgFile = new  File(mDataset.get(position).getImageUri());
+        if(imgFile.exists()){
+            Picasso.get().load(Uri.fromFile(imgFile)).resize(2048,1152).into(img, new Callback() {
+                @Override
+                public void onSuccess() {
+                    holder.imgView.setBackground(img.getDrawable());
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    System.out.println("Error");
+                }
+            });
+        }else {
+            Toast.makeText(context, "Can't open file", Toast.LENGTH_SHORT).show();
+        }
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +177,6 @@ public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleVi
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
 }

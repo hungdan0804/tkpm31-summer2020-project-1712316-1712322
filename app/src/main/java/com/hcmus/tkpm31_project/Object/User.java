@@ -8,16 +8,26 @@ public class User {
     protected String password;
     protected String email;
     protected String phoneNumber;
+    protected int totalLifeTime;
 
     public User(){
 
     }
 
-    public User(String username, String password, String email, String phoneNumber) {
+    public User(String username, String password, String email, String phoneNumber,int totalLifeTime) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.totalLifeTime=totalLifeTime;
+    }
+
+    public int getTotalLifeTime() {
+        return totalLifeTime;
+    }
+
+    public void setTotalLifeTime(int totalLifeTime) {
+        this.totalLifeTime = totalLifeTime;
     }
 
     public String getUsername() {
@@ -58,6 +68,7 @@ public class User {
         res.put("password",this.password);
         res.put("email",this.email);
         res.put("phoneNumber",this.phoneNumber);
+        res.put("totalLifeTime",this.totalLifeTime);
         return res;
     }
 }
