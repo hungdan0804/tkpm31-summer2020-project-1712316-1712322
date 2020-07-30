@@ -36,9 +36,12 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.hcmus.tkpm31_project.Adapter.HabitTypeListViewAdapter;
+import com.hcmus.tkpm31_project.Component.habitHome.HabitHomeActivity;
 import com.hcmus.tkpm31_project.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -49,7 +52,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class InitializeHabitActivity extends AppCompatActivity {
+public class InitializeHabitActivity extends AppCompatActivity implements InitializeHabitContract.View {
 
 
     private final int DAY_OF_WEEK = 7;
@@ -80,6 +83,8 @@ public class InitializeHabitActivity extends AppCompatActivity {
     private Context context = this;
     private int dayofweek;
     private List<Boolean> checkDay;
+    private InitializeHabitPresenter presenter;
+    private String thumbnail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +97,10 @@ public class InitializeHabitActivity extends AppCompatActivity {
     }
 
     private void initVariable() {
+
+        presenter = new InitializeHabitPresenter();
+        presenter.setView(this);
+
         calendarConstraint= new CalendarConstraints.Builder();
         timePickerBuilder =MaterialDatePicker.Builder.datePicker();
 
@@ -269,6 +278,23 @@ public class InitializeHabitActivity extends AppCompatActivity {
                 showTimepicker(end_repetition,end_repetition_time);
             }
         });
+
+        btn_insert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String habitName = edt_habit_name.getText().toString();
+                String type = typeValue.getText().toString();
+                String dateTrainning = edt_tranning_Days.getText().toString();
+                String description = edt_description.getText().toString();
+                presenter.handleInsertHabit(getApplicationContext(),habitName,type,startingDate,dateTrainning,thumbnail,checkDay,start_repetition_time,end_repetition_time,description);
+            }
+        });
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 
@@ -353,14 +379,9 @@ public class InitializeHabitActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == -1){
-            try {
-                final Uri imageUri = data.getData();
-                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                btn_thumbnail.setImageBitmap(selectedImage);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            final Uri imageUri = data.getData();
+            thumbnail = imageUri.getLastPathSegment();
+            Picasso.get().load(imageUri).resize(1024,768).into(btn_thumbnail);
         }else {
             Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_LONG).show();
         }
@@ -383,5 +404,18 @@ public class InitializeHabitActivity extends AppCompatActivity {
         edt_description = (EditText)findViewById(R.id.edt_description);
         btn_insert = (ImageButton)findViewById(R.id.btn_insert);
         btn_back = (ImageButton)findViewById(R.id.btn_back);
+    }
+
+    @Override
+    public void insertSuccess() {
+        Toast.makeText(this, "insert success", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void insertFailure(int error) {
+        switch (error){
+            case 1:  Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();break;
+        }
     }
 }

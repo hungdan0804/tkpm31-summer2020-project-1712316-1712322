@@ -52,7 +52,7 @@ public class SignUpPresenter implements SignUpContract.Presenter{
                     }else{
 
                         String key = ref.push().getKey();
-                        User newUser= new User(username, BCrypt.hashpw(password,BCrypt.gensalt()),email,phoneNumber);
+                        User newUser= new User(username, BCrypt.hashpw(password,BCrypt.gensalt()),email,phoneNumber,0);
                         Map<String,Object> userValue= newUser.toMap();
                         Map<String, Object> childUpdates = new HashMap<>();
                         childUpdates.put("/user/" +key, userValue);

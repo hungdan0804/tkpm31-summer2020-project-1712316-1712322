@@ -20,6 +20,8 @@ public interface HabitDAO {
     void insertOnlySingleHabit (Habit habit);
     @Insert
     void insertMultipleHabits (List<Habit> HabitsList);
+    @Query("SELECT * FROM Habit")
+    List<Habit> fetchAllHabit();
     @Query("SELECT * FROM Habit WHERE _habitID = :habitID")
     Habit fetchOneHabitbyHabitId (int habitID);
     @Update

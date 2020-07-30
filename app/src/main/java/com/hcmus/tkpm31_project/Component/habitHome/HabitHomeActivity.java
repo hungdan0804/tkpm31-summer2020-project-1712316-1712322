@@ -35,9 +35,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hcmus.tkpm31_project.Adapter.ViewPagerAdapter;
 import com.hcmus.tkpm31_project.Component.initializeHabit.InitializeHabitActivity;
+import com.hcmus.tkpm31_project.Object.Habit;
 import com.hcmus.tkpm31_project.R;
+import com.hcmus.tkpm31_project.Util.CurrentUser;
 
-public class HabitHomeActivity extends AppCompatActivity {
+import java.util.List;
+
+public class HabitHomeActivity extends AppCompatActivity implements HabitHomeContract.View{
 
     private BottomNavigationView navigation;
     private Toolbar toolbar;
@@ -50,6 +54,11 @@ public class HabitHomeActivity extends AppCompatActivity {
     private TextView app_title;
     private FloatingActionButton btn_insert;
     private ViewPager viewPager;
+    private HabitHomePresenter presenter;
+    private HabitDataRecievedListener recievedListener;
+    private TextView totalLifeTime_box;
+    private TextView todayLifeTime_box;
+    private CurrentUser curUser;
 
 
     @Override
@@ -57,10 +66,21 @@ public class HabitHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_home);
 
+        initVariable();
         initView();
         registerListener();
     }
 
+    public void setDataListener(HabitDataRecievedListener listener) {
+        this.recievedListener = listener;
+    }
+
+    private void initVariable() {
+        presenter = new HabitHomePresenter();
+        presenter.setView(this);
+        curUser=new CurrentUser(this);
+        presenter.setCurrentUser(curUser);
+    }
 
 
     private void registerListener() {
@@ -99,15 +119,15 @@ public class HabitHomeActivity extends AppCompatActivity {
        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment;
+
                 switch (item.getItemId()) {
                     case R.id.navigation_habit:
                         viewPager.setCurrentItem(0);
-//                        loadFragment(fragment);
+
                         return true;
                     case R.id.navigation_spending:
                         viewPager.setCurrentItem(1);
-//                        loadFragment(fragment);
+
                         return true;
                 }
                 return false;
@@ -145,6 +165,8 @@ public class HabitHomeActivity extends AppCompatActivity {
         imageView = (ImageView)findViewById(R.id.icon_app);
         searchView = (SearchView)findViewById(R.id.search_view);
         app_title=(TextView)findViewById(R.id.app_title);
+        totalLifeTime_box = (TextView)findViewById(R.id.sub_content_total);
+        todayLifeTime_box = (TextView)findViewById(R.id.sub_content_today);
         Resources res = getResources();
         Bitmap src = BitmapFactory.decodeResource(res, R.drawable.icon_app);
         RoundedBitmapDrawable dr =
@@ -154,9 +176,32 @@ public class HabitHomeActivity extends AppCompatActivity {
         btn_insert = (FloatingActionButton)findViewById(R.id.btn_insert_habit);
         viewPager =(ViewPager)findViewById(R.id.view_pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),0);
-        adapter.addFragment(new HabitFragment(getApplicationContext()),"Habit");
+        HabitFragment habitFragment = new HabitFragment(getApplicationContext());
+        adapter.addFragment(habitFragment,"Habit");
+        presenter.loadData(this);
         adapter.addFragment(new SpedingFragment(),"Habit");
         viewPager.setAdapter(adapter);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        presenter.loadData(this);
+    }
+
+
+    @Override
+    public void updateUI_Habit(List<Habit> data) {
+        try {
+            Thread.sleep(500);
+            recievedListener.onDataReceived(data);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateUI_Habit_Total(int totalLifeTime) {
+        totalLifeTime_box.setText(totalLifeTime);
+    }
 }
