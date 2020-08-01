@@ -69,7 +69,6 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         mAuth = FirebaseAuth.getInstance();
         curUser=new CurrentUser(this);
-        curUser.setReminderRequestCode(1);
         intent = new Intent(this,HabitHomeActivity.class);
 
     }

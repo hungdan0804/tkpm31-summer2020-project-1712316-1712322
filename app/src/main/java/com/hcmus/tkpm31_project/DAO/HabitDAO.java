@@ -17,7 +17,7 @@ import java.util.List;
 public interface HabitDAO {
 
     @Insert
-    void insertOnlySingleHabit (Habit habit);
+    long insertOnlySingleHabit (Habit habit);
     @Insert
     void insertMultipleHabits (List<Habit> HabitsList);
     @Query("SELECT * FROM Habit")
