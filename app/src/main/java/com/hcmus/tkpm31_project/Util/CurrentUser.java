@@ -17,6 +17,7 @@ public class CurrentUser {
     private static final String USERNAME = "username";
     private static final String TOTALLIFETIME ="totalLifeTime";
     private static final String TODAYLIFETIME = "todayLifeTime";
+    private static final String REMINDER_REQUEST_CODE ="reminder_request_code";
 
     public CurrentUser(Context context) {
         this._context = context;
@@ -37,9 +38,15 @@ public class CurrentUser {
         editor.commit();
     }
 
+    public void setReminderRequestCode(int value){
+        editor.putInt(REMINDER_REQUEST_CODE,value);
+        editor.commit();
+    }
+
     public String getCurrentUser() {
         return pref.getString(USERNAME,null);
     }
     public int getTotalLifeTime(){return pref.getInt(TOTALLIFETIME,0);}
     public int getTodayLifeTime(){return pref.getInt(TODAYLIFETIME,0);}
+    public int getReminderRequestCode(){return pref.getInt(REMINDER_REQUEST_CODE,0);}
 }

@@ -17,6 +17,7 @@ public class Habit implements Serializable {
     private String _habitName;
     private String _type;
     private Date _startingDate;
+    private Date _endingDate;
     private int _daysTraining;
     private String satisfidedRating;
     private String _startingTime;
@@ -24,16 +25,25 @@ public class Habit implements Serializable {
     private String imageUri;
     private String description;
 
-    public Habit(String _habitName, String _type, Date _startingDate, int _daysTraining, String _startingTime, String _endingTime,String imageUri,String description) {
+    public Habit(String _habitName, String _type, Date _startingDate, Date _endingDate,int _daysTraining, String _startingTime, String _endingTime,String imageUri,String description) {
         this._habitName = _habitName;
         this._type = _type;
         this._startingDate = _startingDate;
+        this._endingDate = _endingDate;
         this._daysTraining = _daysTraining;
         this._startingTime = _startingTime;
         this._endingTime = _endingTime;
         this.satisfidedRating = "";
         this.imageUri = imageUri;
         this.description =description;
+    }
+
+    public Date get_endingDate() {
+        return _endingDate;
+    }
+
+    public void set_endingDate(Date _endingDate) {
+        this._endingDate = _endingDate;
     }
 
     public String getDescription() {

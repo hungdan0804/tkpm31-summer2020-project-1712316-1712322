@@ -21,6 +21,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -301,6 +302,7 @@ public class InitializeHabitActivity extends AppCompatActivity implements Initia
     private void showTimepicker(final TextView textView, final Calendar time){
         int Hour=time.get(Calendar.HOUR);
         final int min=time.get(Calendar.MINUTE);
+        int second = time.get(Calendar.SECOND);
         TimePickerDialog timePickerDialog= new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
