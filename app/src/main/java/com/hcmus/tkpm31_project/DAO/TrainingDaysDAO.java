@@ -14,6 +14,8 @@ public interface TrainingDaysDAO {
     void insertOnlySingleTraningDays(TrainingDays td);
     @Insert
     void insertMultipleTrainingDays(List<TrainingDays> TrainingDaysList);
+    @Query("SELECT * FROM TrainingDays")
+    List<TrainingDays> fetchAllTrainingDaysbyTrainingDaysId();
     @Query("SELECT * FROM TrainingDays WHERE _tdID = :tdID")
     TrainingDays fetchOneTrainingDaysbyTrainingDaysId(int tdID);
     @Update

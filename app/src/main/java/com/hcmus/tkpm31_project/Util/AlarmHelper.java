@@ -23,20 +23,21 @@ public class AlarmHelper {
     }
 
 
-    public void initVariable(Context context,Calendar endingDate,Calendar timeStart){
-        CurrentUser currentUser = new CurrentUser(context);
-        int reqCode= currentUser.getReminderRequestCode();
+    public void initVariable(Context context,Calendar endingDate,Calendar timeStart,long reqCode,String habitName,long habitID){
+
         alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra("endingDate",endingDate.getTimeInMillis());
         intent.putExtra("timeStart",timeStart.getTimeInMillis());
-        pendingIntent = PendingIntent.getBroadcast(context, reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        currentUser.setReminderRequestCode(++reqCode);
+        intent.putExtra("reqCode",reqCode);
+        intent.putExtra("habitName",habitName);
+        intent.putExtra("habitID",habitID);
+        pendingIntent = PendingIntent.getBroadcast(context,(int)reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    public void scheduleAlarm(Context context, Calendar timeStart,Calendar endingDate,int dayofweek){
-        initVariable(context,endingDate,timeStart);
-//        timeStart.set(Calendar.DAY_OF_WEEK,dayofweek);
+    public void scheduleAlarm(Context context, Calendar timeStart,Calendar endingDate,int dayofweek, long reqCode,String habitName,long habitID){
+        initVariable(context,endingDate,timeStart,reqCode,habitName,habitID);
+        timeStart.setFirstDayOfWeek(dayofweek);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP,timeStart.getTimeInMillis(),pendingIntent);
     }
 }
