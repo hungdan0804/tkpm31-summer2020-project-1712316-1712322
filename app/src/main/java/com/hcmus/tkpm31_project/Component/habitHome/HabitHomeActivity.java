@@ -24,6 +24,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
@@ -80,6 +81,7 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         presenter.setView(this);
         curUser=new CurrentUser(this);
         presenter.setCurrentUser(curUser);
+
     }
 
 

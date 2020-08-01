@@ -78,8 +78,12 @@ public class SignInPresenter implements SignInContract.Presenter {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                     if(dataSnapshot.getValue() != null){
-                        User user =(User) dataSnapshot.getValue();
-                        mView.authSuccess(email,user.getTotalLifeTime());
+                        User user = new User();
+                        for(DataSnapshot data: dataSnapshot.getChildren()){
+                            user = data.getValue(User.class);
+                        }
+                        int totalTime = user.getTotalLifeTime();
+                        mView.authSuccess(email,totalTime);
                     }else{
 
                         String key = ref.push().getKey();
