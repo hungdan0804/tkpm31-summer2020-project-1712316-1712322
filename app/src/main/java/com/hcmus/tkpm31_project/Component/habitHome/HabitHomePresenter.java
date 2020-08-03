@@ -25,7 +25,6 @@ public class HabitHomePresenter implements HabitHomeContract.Presenter{
     @Override
     public void loadData(final Context context) {
 
-        List<Habit> res = new ArrayList<>();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -36,9 +35,4 @@ public class HabitHomePresenter implements HabitHomeContract.Presenter{
         }).start();
     }
 
-    @Override
-    public void loadCurUser() {
-        mView.updateUI_Habit_Total(currentUser.getTotalLifeTime());
-
-    }
 }

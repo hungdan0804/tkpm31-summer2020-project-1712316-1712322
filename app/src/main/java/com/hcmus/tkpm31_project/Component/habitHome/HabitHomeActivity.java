@@ -38,8 +38,13 @@ import com.hcmus.tkpm31_project.Adapter.ViewPagerAdapter;
 import com.hcmus.tkpm31_project.Component.initializeHabit.InitializeHabitActivity;
 import com.hcmus.tkpm31_project.Object.Habit;
 import com.hcmus.tkpm31_project.R;
+import com.hcmus.tkpm31_project.Receiver.AlarmReceiver;
+import com.hcmus.tkpm31_project.Receiver.NotificationReceiver;
 import com.hcmus.tkpm31_project.Util.CurrentUser;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class HabitHomeActivity extends AppCompatActivity implements HabitHomeContract.View{
@@ -57,9 +62,10 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
     private ViewPager viewPager;
     private HabitHomePresenter presenter;
     private HabitDataRecievedListener recievedListener;
-    private TextView totalLifeTime_box;
-    private TextView todayLifeTime_box;
-    private CurrentUser curUser;
+    private static TextView totalLifeTime_box;
+    private static TextView todayLifeTime_box;
+    private static CurrentUser curUser;
+    public static boolean active = false;
 
 
     @Override
@@ -70,7 +76,22 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         initVariable();
         initView();
         registerListener();
+        updateUI();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        active=true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        active=false;
+    }
+
+
 
     public void setDataListener(HabitDataRecievedListener listener) {
         this.recievedListener = listener;
@@ -202,8 +223,30 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         }
     }
 
-    @Override
-    public void updateUI_Habit_Total(int totalLifeTime) {
-        totalLifeTime_box.setText(totalLifeTime);
+    public static void updateUI() {
+        long todayLifeTime = curUser.getTodayLifeTime();
+        long totalLifeTime = curUser.getTotalLifeTime();
+        todayLifeTime /= 1000; // diff in second
+        totalLifeTime /= 1000;
+        int hours_today =(int) todayLifeTime / 3600;
+        int remainder_today = (int) todayLifeTime- hours_today *3600;
+        int mins_today = remainder_today / 60;
+        int hours_total =(int) totalLifeTime / 3600;
+        int remainder_total = (int) totalLifeTime- hours_today *3600;
+        int mins_total = remainder_today / 60;
+        String str="";
+        if(hours_today > 0) {
+            str += hours_today + "h " + mins_today + "m";
+        }else{
+            str += mins_today + "m";
+        }
+        String str2="";
+        if(hours_total > 0) {
+            str2 += hours_total + "h " + mins_total + "m";
+        }else{
+            str2 += mins_total + "m";
+        }
+        todayLifeTime_box.setText(str);
+        totalLifeTime_box.setText(str2);
     }
 }

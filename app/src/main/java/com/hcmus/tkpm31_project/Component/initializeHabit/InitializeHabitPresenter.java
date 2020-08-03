@@ -29,10 +29,9 @@ public class InitializeHabitPresenter implements InitializeHabitContract.Present
     public void handleInsertHabit(final Context context, final String habitName, String type, Calendar startingDate, String daysTraining, String thumbnail, final List<Boolean> dayOfWeek, final Calendar timeStart, final Calendar timeEnd, String Description) {
 
         int dayTr=0;
-        int start_hour = timeStart.get(Calendar.HOUR);
+        int start_hour = timeStart.get(Calendar.HOUR_OF_DAY);
         int start_minute = timeStart.get(Calendar.MINUTE);
-        int start_second = timeStart.get(Calendar.SECOND);
-        int end_hour = timeEnd.get(Calendar.HOUR);
+        int end_hour = timeEnd.get(Calendar.HOUR_OF_DAY);
         int end_minute = timeEnd.get(Calendar.MINUTE);
         final String start = String.format("%d:%d",start_hour,start_minute);
         String end = String.format("%d:%d",end_hour,end_minute);
@@ -52,8 +51,6 @@ public class InitializeHabitPresenter implements InitializeHabitContract.Present
                         for(int i:dayofweek){
                             Calendar temp = Calendar.getInstance();
                             temp.setTimeInMillis(timeStart.getTimeInMillis());
-                            int startH = temp.get(Calendar.HOUR);
-                            int startM = temp.get(Calendar.MINUTE);
                             long reqCode = databaseHelper.reminderDAO().insertOnlySingleReminder(new Reminder(rowID,i));
                             helper.scheduleAlarm(context,temp,endingDate,i,reqCode,habitName,rowID);
                         }
