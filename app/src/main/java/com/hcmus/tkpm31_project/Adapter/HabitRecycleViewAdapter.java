@@ -32,6 +32,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleViewAdapter.MyViewHolder> {
@@ -137,6 +141,31 @@ public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleVi
         final ImageView img = new ImageView(context);
         holder.imgView.setText(mDataset.get(position).get_habitName());
         File imgFile = new  File(mDataset.get(position).getImageUri());
+        holder.textView.setText(mDataset.get(position).getDescription());
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        int hours = 0;
+        int mins = 0;
+        try {
+            Date start = format.parse(mDataset.get(position).get_startingTime());
+            Date end = format.parse(mDataset.get(position).get_endingTime());
+            long diff = end.getTime() - start.getTime(); //diff in milisecond
+            diff /= 1000; // diff in second
+
+            hours =(int) diff / 3600;
+            int remainder = (int) diff - hours *3600;
+            mins = remainder / 60;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String str ="";
+        if(hours > 0){
+            str += "+ " + hours+"h "+mins+"m Lifetime";
+        }else{
+            str += "+ " +mins+"m Lifetime";
+        }
+        holder.spendingTimeTxt.setText(str);
+
         if(imgFile.exists()){
             Picasso.get().load(Uri.fromFile(imgFile)).resize(2048,1152).into(img, new Callback() {
                 @Override

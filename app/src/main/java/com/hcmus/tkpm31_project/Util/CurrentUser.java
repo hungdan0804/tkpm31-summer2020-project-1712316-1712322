@@ -30,13 +30,13 @@ public class CurrentUser {
         editor.commit();
     }
 
-    public void setTotallifetime(int totallifetime) {
-        editor.putInt(TOTALLIFETIME, totallifetime);
+    public void setTotallifetime(long totallifetime) {
+        editor.putLong(TOTALLIFETIME, totallifetime);
         editor.commit();
     }
 
-    public void setTodaylifetime(int todaylifetime) {
-        editor.putInt(TODAYLIFETIME, todaylifetime);
+    public void setTodaylifetime(long todaylifetime) {
+        editor.putLong(TODAYLIFETIME, todaylifetime);
         editor.commit();
     }
 
@@ -45,11 +45,11 @@ public class CurrentUser {
         return pref.getString(USERNAME, null);
     }
 
-    public int getTotalLifeTime() {
-        return pref.getInt(TOTALLIFETIME, 0);
+    public long getTotalLifeTime() {
+        return pref.getLong(TOTALLIFETIME, 0);
     }
 
-    public int getTodayLifeTime() {
-        return pref.getInt(TODAYLIFETIME, 0);
+    public long getTodayLifeTime() {
+        return pref.getLong(TODAYLIFETIME, 0);
     }
 }
