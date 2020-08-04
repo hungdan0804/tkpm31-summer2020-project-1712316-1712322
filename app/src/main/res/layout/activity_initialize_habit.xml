@@ -196,18 +196,22 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_8sdp"
                        >
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/daysTranning"
-                            android:layout_width="wrap_content"
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/daysTrainning"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/_15sdp"
-                            android:inputType="number"
-                            android:layout_weight="5"/>
+                            android:valueTo="100"
+                            android:valueFrom="2"
+                            android:value="2"
+                            android:stepSize="1"
+                            android:layout_weight="1"/>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/daysTrainning_value"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="2"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_15sdp"
                             android:text="@string/msg_days"/>

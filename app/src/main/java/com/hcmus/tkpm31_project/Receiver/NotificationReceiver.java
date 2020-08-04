@@ -4,14 +4,18 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tkpm31_project.Component.habitHome.HabitHomeActivity;
-import com.hcmus.tkpm31_project.Component.habitHome.HabitHomeContract;
-import com.hcmus.tkpm31_project.Component.habitHome.HabitHomePresenter;
-import com.hcmus.tkpm31_project.Component.habitHome.HabitUpdateUIListener;
 import com.hcmus.tkpm31_project.Object.Habit;
 import com.hcmus.tkpm31_project.Object.TrainingDays;
+import com.hcmus.tkpm31_project.Object.User;
 import com.hcmus.tkpm31_project.Util.CurrentUser;
 import com.hcmus.tkpm31_project.Util.DatabaseHelper;
 
@@ -23,11 +27,12 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     public static final String ACTION_TRACKING = "ACTION_TRACKING";
     public static final String ACTION_DISMISS = "ACTION_DISMISS";
-    private HabitUpdateUIListener listener;
 
 
     @Override
     public void onReceive(final Context context, Intent intent){
+        final FirebaseDatabase database =FirebaseDatabase.getInstance();
+        final DatabaseReference ref=database.getReference();
         String action = intent.getAction();
         final long habitID = intent.getLongExtra("habitID",0);
         NotificationManager nMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -39,15 +44,33 @@ public class NotificationReceiver extends BroadcastReceiver {
                     databaseHelper.trainingDaysDAO().insertOnlySingleTraningDays((new TrainingDays((int)habitID,true)));
                     Habit temp = databaseHelper.habitDAO().fetchOneHabitbyHabitId((int)habitID);
                     SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-                    CurrentUser currentUser = new CurrentUser(context);
+                    final CurrentUser currentUser = new CurrentUser(context);
 
                     try {
                         Date start = format.parse(temp.get_startingTime());
                         Date end = format.parse(temp.get_endingTime());
-                        long diff = end.getTime() - start.getTime(); //diff in milisecond
+                        final long diff = end.getTime() - start.getTime(); //diff in milisecond
                         currentUser.setTodaylifetime(currentUser.getTodayLifeTime()+diff);
                         currentUser.setTotallifetime(currentUser.getTotalLifeTime()+diff);
-                    } catch (ParseException e) {
+                        ref.child("user").orderByChild("username").equalTo(currentUser.getCurrentUser()).addListenerForSingleValueEvent(new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for(DataSnapshot d : dataSnapshot.getChildren()){
+                                    User temp = d.getValue(User.class);
+                                    if(temp.getUsername().equals(currentUser.getCurrentUser())){
+                                        d.getRef().child("totalLifeTime").setValue(currentUser.getTotalLifeTime()+diff);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        } catch (ParseException e) {
                         e.printStackTrace();
                     }
                     if(HabitHomeActivity.active){

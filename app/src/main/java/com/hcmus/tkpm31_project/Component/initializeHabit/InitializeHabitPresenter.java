@@ -26,7 +26,7 @@ public class InitializeHabitPresenter implements InitializeHabitContract.Present
     public void setView(InitializeHabitContract.View view){this.activity = view;}
 
     @Override
-    public void handleInsertHabit(final Context context, final String habitName, String type, Calendar startingDate, String daysTraining, String thumbnail, final List<Boolean> dayOfWeek, final Calendar timeStart, final Calendar timeEnd, String Description) {
+    public void handleInsertHabit(final Context context, final String habitName, String type, Calendar startingDate, float daysTraining, String thumbnail, final List<Boolean> dayOfWeek, final Calendar timeStart, final Calendar timeEnd, String Description) {
 
         int dayTr=0;
         int start_hour = timeStart.get(Calendar.HOUR_OF_DAY);
@@ -35,8 +35,8 @@ public class InitializeHabitPresenter implements InitializeHabitContract.Present
         int end_minute = timeEnd.get(Calendar.MINUTE);
         final String start = String.format("%d:%d",start_hour,start_minute);
         String end = String.format("%d:%d",end_hour,end_minute);
-        if(!habitName.isEmpty() && !daysTraining.isEmpty() && !start.equals(end)){
-            dayTr = Integer.parseInt(daysTraining);
+        if(!habitName.isEmpty()  && !start.equals(end)){
+            dayTr = (int)daysTraining;
             final Calendar endingDate = Calendar.getInstance();
             endingDate.setTimeInMillis(startingDate.getTimeInMillis());
             endingDate.add(Calendar.DATE,dayTr);

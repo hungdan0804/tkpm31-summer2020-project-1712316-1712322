@@ -140,7 +140,39 @@ public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleVi
 
         final ImageView img = new ImageView(context);
         holder.imgView.setText(mDataset.get(position).get_habitName());
-        File imgFile = new  File(mDataset.get(position).getImageUri());
+        String []path = mDataset.get(position).getImageUri().split(" ");
+        if(mDataset.get(position).getImageUri().split(" ")[0].equals("Drawable")){
+            int imgDrawable = Integer.parseInt(path[1]);
+            Picasso.get().load(imgDrawable).resize(2048,1152).into(img, new Callback() {
+                @Override
+                public void onSuccess() {
+                    holder.imgView.setBackground(img.getDrawable());
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    System.out.println("Error");
+                }
+            });
+        }else{
+            File imgFile = new  File(mDataset.get(position).getImageUri());
+            if(imgFile.exists()){
+                Picasso.get().load(Uri.fromFile(imgFile)).resize(2048,1152).into(img, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        holder.imgView.setBackground(img.getDrawable());
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        System.out.println("Error");
+                    }
+                });
+            }else {
+                Toast.makeText(context, "Can't open file", Toast.LENGTH_SHORT).show();
+            }
+        }
+
         holder.textView.setText(mDataset.get(position).getDescription());
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         int hours = 0;
@@ -166,21 +198,6 @@ public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleVi
         }
         holder.spendingTimeTxt.setText(str);
 
-        if(imgFile.exists()){
-            Picasso.get().load(Uri.fromFile(imgFile)).resize(2048,1152).into(img, new Callback() {
-                @Override
-                public void onSuccess() {
-                    holder.imgView.setBackground(img.getDrawable());
-                }
-
-                @Override
-                public void onError(Exception e) {
-                    System.out.println("Error");
-                }
-            });
-        }else {
-            Toast.makeText(context, "Can't open file", Toast.LENGTH_SHORT).show();
-        }
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
