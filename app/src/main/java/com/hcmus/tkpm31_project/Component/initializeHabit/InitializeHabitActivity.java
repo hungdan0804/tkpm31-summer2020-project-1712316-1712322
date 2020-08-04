@@ -11,13 +11,16 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +28,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,12 +39,16 @@ import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputEditText;
+import com.hcmus.tkpm31_project.Adapter.HabitThumbnailAdapter;
 import com.hcmus.tkpm31_project.Adapter.HabitTypeListViewAdapter;
+import com.hcmus.tkpm31_project.BuildConfig;
 import com.hcmus.tkpm31_project.Component.habitHome.HabitHomeActivity;
 import com.hcmus.tkpm31_project.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,7 +70,7 @@ public class InitializeHabitActivity extends AppCompatActivity implements Initia
     private TextView typeChange;
     private TextView startingDays_value;
     private TextView startingDays_change;
-    private TextInputEditText edt_tranning_Days;
+    private Slider edt_tranning_Days;
     private ImageButton btn_thumbnail;
     private TextView repetition_days;
     private TextView repetition_days_change;
@@ -86,6 +94,7 @@ public class InitializeHabitActivity extends AppCompatActivity implements Initia
     private List<Boolean> checkDay;
     private InitializeHabitPresenter presenter;
     private String thumbnail;
+    private TextView daysTrainning_value;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,9 +114,11 @@ public class InitializeHabitActivity extends AppCompatActivity implements Initia
         calendarConstraint= new CalendarConstraints.Builder();
         timePickerBuilder =MaterialDatePicker.Builder.datePicker();
 
-        calendarConstraint.setValidator(DateValidatorPointForward.from(new Date().getTime()-24*60*60*60));
+        calendarConstraint.setValidator(DateValidatorPointForward.from(new Date().getTime()-24*60*60*1000));
         timePickerBuilder.setCalendarConstraints(calendarConstraint.build());
         timePickerBuilder.setTitleText("Select a date");
+
+
 
         materialDatePicker =timePickerBuilder.build();
         startingDate = Calendar.getInstance();
@@ -167,18 +178,49 @@ public class InitializeHabitActivity extends AppCompatActivity implements Initia
         btn_thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(
-                        getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                        PackageManager.PERMISSION_GRANTED) {
-                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                    photoPickerIntent.setType("image/*");
-                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
-                } else if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
-                } else {
-                    requestPermissions(new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },
-                            MY_PERMISSION_REQUEST_READ_EXTERNAL_STORAGE);
-                }
+                createHabitThumbnailDialog();
+
+            }
+
+            private void createHabitThumbnailDialog() {
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.custom_dialog_thumbnail_chooser);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                final GridView gridView =(GridView) dialog.findViewById(R.id.gridView);
+                HabitThumbnailAdapter adapter = new HabitThumbnailAdapter(context);
+                gridView.setAdapter(adapter);
+                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        if(position != gridView.getLastVisiblePosition()){
+                            Picasso.get().load((int)gridView.getItemAtPosition(position)).resize(1024,768).into(btn_thumbnail);
+                            thumbnail = "Drawable "+(int)gridView.getItemAtPosition(position);
+                            dialog.cancel();
+                            dialog.dismiss();
+                        }else{
+                            if (ContextCompat.checkSelfPermission(
+                                    getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                                    PackageManager.PERMISSION_GRANTED) {
+                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                                photoPickerIntent.setType("image/*");
+                                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
+                            } else if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                                requestPermissions(new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },
+                                        MY_PERMISSION_REQUEST_READ_EXTERNAL_STORAGE);
+                            } else {
+                                requestPermissions(new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },
+                                        MY_PERMISSION_REQUEST_READ_EXTERNAL_STORAGE);
+                            }
+                            dialog.cancel();
+                            dialog.dismiss();
+                        }
+                    }
+                });
+
+                dialog.show();
+
             }
         });
         repetition_days_change.setOnClickListener(new View.OnClickListener() {
@@ -285,8 +327,18 @@ public class InitializeHabitActivity extends AppCompatActivity implements Initia
             public void onClick(View v) {
                 String habitName = edt_habit_name.getText().toString();
                 String type = typeValue.getText().toString();
-                String dateTrainning = edt_tranning_Days.getText().toString();
+                float dateTrainning = edt_tranning_Days.getValue();
                 String description = edt_description.getText().toString();
+
+                //set starting date
+                start_repetition_time.set(Calendar.YEAR,startingDate.get(Calendar.YEAR));
+                start_repetition_time.set(Calendar.MONTH,startingDate.get(Calendar.MONTH));
+                start_repetition_time.set(Calendar.DAY_OF_MONTH,startingDate.get(Calendar.DAY_OF_MONTH));
+                //set starting date
+                end_repetition_time.set(Calendar.YEAR,startingDate.get(Calendar.YEAR));
+                end_repetition_time.set(Calendar.MONTH,startingDate.get(Calendar.MONTH));
+                end_repetition_time.set(Calendar.DAY_OF_MONTH,startingDate.get(Calendar.DAY_OF_MONTH));
+
                 presenter.handleInsertHabit(getApplicationContext(),habitName,type,startingDate,dateTrainning,thumbnail,checkDay,start_repetition_time,end_repetition_time,description);
             }
         });
@@ -294,6 +346,14 @@ public class InitializeHabitActivity extends AppCompatActivity implements Initia
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        edt_tranning_Days.setOnChangeListener(new Slider.OnChangeListener() {
+            @Override
+            public void onValueChange(Slider slider, float value) {
+                int num = (int)value;
+                daysTrainning_value.setText(num +  " Days");
             }
         });
     }
@@ -395,7 +455,7 @@ public class InitializeHabitActivity extends AppCompatActivity implements Initia
         typeChange = (TextView)findViewById(R.id.type_change);
         startingDays_value = (TextView)findViewById(R.id.startingDay_value);
         startingDays_change = (TextView)findViewById(R.id.startingDay_change);
-        edt_tranning_Days = (TextInputEditText)findViewById(R.id.daysTranning);
+        edt_tranning_Days = (Slider) findViewById(R.id.daysTrainning);
         btn_thumbnail = (ImageButton)findViewById(R.id.thumbnail);
         repetition_days = (TextView)findViewById(R.id.repetition_days);
         repetition_days_change = (TextView)findViewById(R.id.repetition_days_change);
@@ -406,6 +466,7 @@ public class InitializeHabitActivity extends AppCompatActivity implements Initia
         edt_description = (EditText)findViewById(R.id.edt_description);
         btn_insert = (ImageButton)findViewById(R.id.btn_insert);
         btn_back = (ImageButton)findViewById(R.id.btn_back);
+        daysTrainning_value = (TextView)findViewById(R.id.daysTrainning_value);
     }
 
     @Override

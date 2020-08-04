@@ -55,7 +55,7 @@
     <string name="msg_starting_day_default">No date pick</string>
     <string name="btn_starting_day">Change</string>
     <string name="msg_trainning_days">Tranning days</string>
-    <string name="msg_days">Days</string>
+    <string name="msg_days">2 Days</string>
     <string name="msg_thumnail">Choose a thumbnail</string>
     <string name="msg_reminder">Reminder</string>
     <string name="msg_repetition">Repeitition</string>

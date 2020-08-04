@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/decor_search_box">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/msg_thumnail"
+        android:textSize="@dimen/_20sdp"
+        android:textColor="@color/black"
+        android:padding="@dimen/_10sdp"
+        android:gravity="start"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
+
+    <GridView
+        android:padding="@dimen/_5sdp"
+        android:id="@+id/gridView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:stretchMode="columnWidth"
+        android:columnWidth="@dimen/_75sdp"
+        android:numColumns="2"/>
+</LinearLayout>

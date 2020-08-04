@@ -12,6 +12,6 @@ public interface InitializeHabitContract {
         void insertFailure(int error);
     }
     interface Presenter{
-        void handleInsertHabit(Context context,String habitName, String type , Calendar startingDate, String daysTraining, String thumbnail, List<Boolean> dayOfWeek, Calendar timeStart, Calendar timeEnd, String Description);
+        void handleInsertHabit(Context context,String habitName, String type , Calendar startingDate, float daysTraining, String thumbnail, List<Boolean> dayOfWeek, Calendar timeStart, Calendar timeEnd, String Description);
     }
 }
