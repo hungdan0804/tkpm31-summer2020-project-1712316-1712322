@@ -93,7 +93,7 @@ public class InitializeHabitActivity extends AppCompatActivity implements Initia
     private int dayofweek;
     private List<Boolean> checkDay;
     private InitializeHabitPresenter presenter;
-    private String thumbnail;
+    private String thumbnail = "";
     private TextView daysTrainning_value;
 
     @Override

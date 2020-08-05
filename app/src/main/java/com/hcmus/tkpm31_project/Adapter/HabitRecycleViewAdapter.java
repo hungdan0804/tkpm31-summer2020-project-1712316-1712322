@@ -1,6 +1,9 @@
 package com.hcmus.tkpm31_project.Adapter;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -18,8 +21,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hcmus.tkpm31_project.Component.habitHome.HabitHomeActivity;
+import com.hcmus.tkpm31_project.Component.habitInfo.HabitInfoActivity;
 import com.hcmus.tkpm31_project.Object.Habit;
 import com.hcmus.tkpm31_project.R;
 import com.squareup.picasso.Callback;
@@ -41,6 +47,7 @@ import java.util.List;
 public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleViewAdapter.MyViewHolder> {
     private List<Habit> mDataset;
     private Context context;
+    private HabitHomeActivity activity;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -119,9 +126,10 @@ public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleVi
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public HabitRecycleViewAdapter(List<Habit> myDataset,Context context) {
+    public HabitRecycleViewAdapter(List<Habit> myDataset, Context context, Activity activity) {
         this.mDataset = myDataset;
         this.context = context;
+        this.activity =(HabitHomeActivity) activity;
     }
 
     // Create new views (invoked by the layout manager)
@@ -211,6 +219,24 @@ public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleVi
                 }
             }
         });
+
+        String transitionName = mDataset.get(position).get_habitName();
+        ViewCompat.setTransitionName(holder.imgView,transitionName);
+
+        holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(context,HabitInfoActivity.class);
+                intent.putExtra("habitID",mDataset.get(position).get_habitID());
+                intent.putExtra("transitionName",transitionName);
+                intent.putExtra("habitThumbnail",mDataset.get(position).getImageUri());
+                intent.putExtra("habitThumbnail_text",mDataset.get(position).get_habitName());
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity,(View)holder.imgView,ViewCompat.getTransitionName(holder.imgView));
+                activity.startActivity(intent,options.toBundle());
+                return true;
+            }
+        });
+
         holder.btn_favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

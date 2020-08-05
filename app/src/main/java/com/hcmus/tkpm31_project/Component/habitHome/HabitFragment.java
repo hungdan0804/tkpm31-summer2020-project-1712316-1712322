@@ -58,10 +58,13 @@ public class HabitFragment extends Fragment implements HabitDataRecievedListener
 
 
         dataSet=new ArrayList<>();
-        mAdapter = new HabitRecycleViewAdapter(dataSet,context);
+        mAdapter = new HabitRecycleViewAdapter(dataSet,context,getActivity());
         recyclerView.setAdapter(mAdapter);
+
+
         return rootView;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
