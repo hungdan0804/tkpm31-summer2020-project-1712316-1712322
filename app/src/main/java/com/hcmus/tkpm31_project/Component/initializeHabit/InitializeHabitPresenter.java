@@ -35,7 +35,7 @@ public class InitializeHabitPresenter implements InitializeHabitContract.Present
         int end_minute = timeEnd.get(Calendar.MINUTE);
         final String start = String.format("%d:%d",start_hour,start_minute);
         String end = String.format("%d:%d",end_hour,end_minute);
-        if(!habitName.isEmpty()  && !start.equals(end)){
+        if(!habitName.isEmpty()  && !start.equals(end) && !thumbnail.isEmpty()){
             dayTr = (int)daysTraining;
             final Calendar endingDate = Calendar.getInstance();
             endingDate.setTimeInMillis(startingDate.getTimeInMillis());

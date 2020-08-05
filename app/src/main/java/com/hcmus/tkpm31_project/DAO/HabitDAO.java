@@ -29,10 +29,10 @@ public interface HabitDAO {
     @Delete
     void deleteHabit (Habit habit);
     @Transaction
-    @Query("SELECT * FROM Habit")
-    public List<HabitWithReminder> loadHabitsWithReminders();
+    @Query("SELECT * FROM Habit WHERE _habitID = :habitID")
+    public HabitWithReminder loadHabitsWithReminders(int habitID);
 
     @Transaction
-    @Query("SELECT * FROM Habit")
-    public List<HabitWithTraningDays> loadHabitsWithTrainingDays();
+    @Query("SELECT * FROM Habit WHERE _habitID = :habitID")
+    public HabitWithTraningDays loadHabitsWithTrainingDays(int habitID);
 }

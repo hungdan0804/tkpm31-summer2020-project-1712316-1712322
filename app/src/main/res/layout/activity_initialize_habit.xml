@@ -203,7 +203,7 @@
                             android:layout_height="wrap_content"
                             android:valueTo="100"
                             android:valueFrom="2"
-                            android:value="2"
+                            android:value="7"
                             android:stepSize="1"
                             android:layout_weight="1"/>
 
