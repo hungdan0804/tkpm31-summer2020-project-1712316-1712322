@@ -78,7 +78,8 @@ public class NotificationHelper extends ContextWrapper {
                 .setPriority(Notification.PRIORITY_HIGH)
                 .addAction(R.drawable.ic_check_black_24dp,getString(R.string.msg_tracking),trackingPendingIntent)
                 .addAction(R.drawable.ic_close_black_24dp,getString(R.string.msg_dismiss),dismissPendingIntent)
-                .setFullScreenIntent(pendingIntent,true);
+                .setOngoing(true)
+                .setContentIntent(pendingIntent);
 
     }
 }

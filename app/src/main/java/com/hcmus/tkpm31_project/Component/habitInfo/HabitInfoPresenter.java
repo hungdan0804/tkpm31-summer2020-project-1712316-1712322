@@ -1,8 +1,15 @@
 package com.hcmus.tkpm31_project.Component.habitInfo;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 
+import com.hcmus.tkpm31_project.Object.Habit;
+import com.hcmus.tkpm31_project.Object.Reminder;
+import com.hcmus.tkpm31_project.ObjectRelationship.HabitWithReminder;
 import com.hcmus.tkpm31_project.ObjectRelationship.HabitWithTraningDays;
+import com.hcmus.tkpm31_project.Receiver.AlarmReceiver;
 import com.hcmus.tkpm31_project.Util.CurrentUser;
 import com.hcmus.tkpm31_project.Util.DatabaseHelper;
 
@@ -28,5 +35,42 @@ public class HabitInfoPresenter implements HabitInfoContract.Presenter {
             }
         }).start();
     }
+
+    @Override
+    public void HandleDeleteHabit(Context context, int habitID) {
+        databaseHelper = DatabaseHelper.getINSTANCE(context);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Habit deletedHabit = databaseHelper.habitDAO().fetchOneHabitbyHabitId(habitID);
+                HabitWithReminder habitWithReminder = databaseHelper.habitDAO().loadHabitsWithReminders(habitID);
+                List<Reminder> reminders = habitWithReminder.reminders;
+                //cancel all alarm service
+                Intent intent = new Intent(context, AlarmReceiver.class);
+
+                for(Reminder r: reminders){
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int)r.get_reminderID(), intent, PendingIntent.FLAG_UPDATE_CURRENT|  Intent.FILL_IN_DATA);
+                    AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+                    alarmManager.cancel(pendingIntent);
+                }
+
+                databaseHelper.habitDAO().deleteHabit(deletedHabit);
+                mView.DeletedSuccess();
+            }
+        }).start();
+    }
+
+    @Override
+    public void HandleReloadThumbnail(Context context, int habitID) {
+        databaseHelper = DatabaseHelper.getINSTANCE(context);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Habit habit = databaseHelper.habitDAO().fetchOneHabitbyHabitId(habitID);
+                mView.UpdateThumbnail(habit.getImageUri());
+            }
+        }).start();
+    }
+
 
 }

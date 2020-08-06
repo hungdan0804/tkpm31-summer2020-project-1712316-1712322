@@ -187,7 +187,6 @@ public class InitializeHabitActivity extends AppCompatActivity implements Initia
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.custom_dialog_thumbnail_chooser);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
                 final GridView gridView =(GridView) dialog.findViewById(R.id.gridView);
                 HabitThumbnailAdapter adapter = new HabitThumbnailAdapter(context);
                 gridView.setAdapter(adapter);
