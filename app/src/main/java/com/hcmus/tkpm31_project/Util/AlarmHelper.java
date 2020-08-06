@@ -32,7 +32,7 @@ public class AlarmHelper {
         intent.putExtra("reqCode",reqCode);
         intent.putExtra("habitName",habitName);
         intent.putExtra("habitID",habitID);
-        pendingIntent = PendingIntent.getBroadcast(context,(int)reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent = PendingIntent.getBroadcast(context,(int)reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT| Intent.FILL_IN_DATA);
     }
 
     public void scheduleAlarm(Context context, Calendar timeStart,Calendar endingDate,int dayofweek, long reqCode,String habitName,long habitID){
