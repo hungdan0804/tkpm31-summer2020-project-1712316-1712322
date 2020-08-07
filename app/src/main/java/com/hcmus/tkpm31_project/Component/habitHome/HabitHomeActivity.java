@@ -18,7 +18,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
@@ -28,10 +30,12 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hcmus.tkpm31_project.Adapter.ViewPagerAdapter;
+import com.hcmus.tkpm31_project.Component.habitSumary.HabitSumaryActivity;
 import com.hcmus.tkpm31_project.Component.initializeHabit.InitializeHabitActivity;
 import com.hcmus.tkpm31_project.Object.Habit;
 import com.hcmus.tkpm31_project.R;
 import com.hcmus.tkpm31_project.Util.CurrentUser;
+import com.hcmus.tkpm31_project.Util.DateHelper;
 
 import java.util.List;
 
@@ -48,11 +52,13 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
     private TextView app_title;
     private FloatingActionButton btn_insert;
     private ViewPager viewPager;
+    private ImageButton btn_sumary;
     private HabitHomePresenter presenter;
-    private HabitDataRecievedListener recievedListener;
+    private static HabitDataRecievedListener recievedListener;
     private static TextView totalLifeTime_box;
     private static TextView todayLifeTime_box;
     private static CurrentUser curUser;
+    private String searchText ="";
     public static boolean active = false;
 
 
@@ -65,6 +71,12 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         initView();
         registerListener();
         updateUI();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        container.requestFocus();
     }
 
     @Override
@@ -95,6 +107,22 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
 
 
     private void registerListener() {
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchText=newText;
+                recievedListener.onFilterData(newText);
+                return false;
+            }
+        });
+
+
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -163,6 +191,14 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
 
            }
        });
+
+       btn_sumary.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent intent = new Intent(getApplicationContext(), HabitSumaryActivity.class);
+               startActivity(intent);
+           }
+       });
     }
 
     private void initView() {
@@ -178,6 +214,7 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         app_title=(TextView)findViewById(R.id.app_title);
         totalLifeTime_box = (TextView)findViewById(R.id.sub_content_total);
         todayLifeTime_box = (TextView)findViewById(R.id.sub_content_today);
+        btn_sumary = (ImageButton)findViewById(R.id.btn_sumary);
         Resources res = getResources();
         Bitmap src = BitmapFactory.decodeResource(res, R.drawable.icon_app);
         RoundedBitmapDrawable dr =
@@ -189,6 +226,7 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),0);
         HabitFragment habitFragment = new HabitFragment(getApplicationContext());
         adapter.addFragment(habitFragment,"Habit");
+
         presenter.loadData(this);
         adapter.addFragment(new SpedingFragment(),"Habit");
         viewPager.setAdapter(adapter);
@@ -205,7 +243,7 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
     public void updateUI_Habit(List<Habit> data) {
         try {
             Thread.sleep(500);
-            recievedListener.onDataReceived(data);
+            recievedListener.onDataReceived(data,searchText);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -214,26 +252,8 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
     public static void updateUI() {
         long todayLifeTime = curUser.getTodayLifeTime();
         long totalLifeTime = curUser.getTotalLifeTime();
-        todayLifeTime /= 1000; // diff in second
-        totalLifeTime /= 1000;
-        int hours_today =(int) todayLifeTime / 3600;
-        int remainder_today = (int) todayLifeTime- hours_today *3600;
-        int mins_today = remainder_today / 60;
-        int hours_total =(int) totalLifeTime / 3600;
-        int remainder_total = (int) totalLifeTime- hours_today *3600;
-        int mins_total = remainder_today / 60;
-        String str="";
-        if(hours_today > 0) {
-            str += hours_today + "h " + mins_today + "m";
-        }else{
-            str += mins_today + "m";
-        }
-        String str2="";
-        if(hours_total > 0) {
-            str2 += hours_total + "h " + mins_total + "m";
-        }else{
-            str2 += mins_total + "m";
-        }
+        String str= DateHelper.TimeToString(todayLifeTime);
+        String str2 =DateHelper.TimeToString(totalLifeTime);
         todayLifeTime_box.setText(str);
         totalLifeTime_box.setText(str2);
     }

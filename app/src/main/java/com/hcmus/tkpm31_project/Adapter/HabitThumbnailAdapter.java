@@ -16,38 +16,38 @@ import java.util.List;
 public class HabitThumbnailAdapter extends BaseAdapter {
 
     private Context context;
-    private List<Integer> data_thumbnail;
+    private List<Integer> thumbnails;
 
     public HabitThumbnailAdapter(Context context){
         this.context=context;
-        this.data_thumbnail=new ArrayList<>();
+        this.thumbnails=new ArrayList<>();
         loadData();
     }
 
     private void loadData() {
-        data_thumbnail.add(R.drawable.forest);
-        data_thumbnail.add(R.drawable.img_working);
-        data_thumbnail.add(R.drawable.img_sport);
-        data_thumbnail.add(R.drawable.img_eating);
-        data_thumbnail.add(R.drawable.img_socializing);
-        data_thumbnail.add(R.drawable.img_entertainment);
-        data_thumbnail.add(R.drawable.img_other);
-        data_thumbnail.add(R.drawable.ic_add_black_24dp);
+        thumbnails.add(R.drawable.forest);
+        thumbnails.add(R.drawable.img_working);
+        thumbnails.add(R.drawable.img_sport);
+        thumbnails.add(R.drawable.img_eating);
+        thumbnails.add(R.drawable.img_socializing);
+        thumbnails.add(R.drawable.img_entertainment);
+        thumbnails.add(R.drawable.img_other);
+        thumbnails.add(R.drawable.ic_add_black_24dp);
     }
 
     @Override
     public int getCount() {
-        return data_thumbnail.size();
+        return thumbnails.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return data_thumbnail.get(position);
+        return thumbnails.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return data_thumbnail.get(position);
+        return thumbnails.get(position);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class HabitThumbnailAdapter extends BaseAdapter {
                 .inflate(R.layout.custom_grid_item_habit_thumbnail, parent, false);
 
         ImageView imageView = (ImageView)view.findViewById(R.id.gridView_item);
-        imageView.setImageResource(data_thumbnail.get(position));
+        imageView.setImageResource(thumbnails.get(position));
         return view;
     }
 }
