@@ -53,8 +53,8 @@ public class HabitInfoPresenter implements HabitInfoContract.Presenter {
                     AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
                     alarmManager.cancel(pendingIntent);
                 }
-
-                databaseHelper.habitDAO().deleteHabit(deletedHabit);
+                deletedHabit.setDelete(true);
+                databaseHelper.habitDAO().updateHabit(deletedHabit);
                 mView.DeletedSuccess();
             }
         }).start();

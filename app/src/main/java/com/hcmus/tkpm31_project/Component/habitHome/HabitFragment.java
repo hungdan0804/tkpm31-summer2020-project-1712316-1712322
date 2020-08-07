@@ -24,7 +24,7 @@ import java.util.List;
 public class HabitFragment extends Fragment implements HabitDataRecievedListener {
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private HabitRecycleViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private Context context;
     private OnFragmentInteractionListener mListener;
@@ -41,7 +41,6 @@ public class HabitFragment extends Fragment implements HabitDataRecievedListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mActivity=(HabitHomeActivity)getActivity();
         mActivity.setDataListener(this);
     }
@@ -92,15 +91,27 @@ public class HabitFragment extends Fragment implements HabitDataRecievedListener
     }
 
     @Override
-    public void onDataReceived(List<Habit> model) {
+    public void onDataReceived(List<Habit> model,String searchText) {
         dataSet.clear();
        dataSet.addAll(model);
+       mAdapter.Filter_name(searchText);
        mActivity.runOnUiThread(new Runnable() {
            @Override
            public void run() {
                mAdapter.notifyDataSetChanged();
            }
        });
+    }
+
+    @Override
+    public void onFilterData(String newText) {
+        mAdapter.Filter_name(newText);
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     public interface OnFragmentInteractionListener {

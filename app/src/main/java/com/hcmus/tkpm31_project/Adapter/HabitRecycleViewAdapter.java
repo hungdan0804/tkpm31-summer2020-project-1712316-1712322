@@ -40,12 +40,15 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleViewAdapter.MyViewHolder> {
     private List<Habit> mDataset;
+    private List<Habit> mCache;
     private Context context;
     private HabitHomeActivity activity;
 
@@ -130,6 +133,7 @@ public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleVi
         this.mDataset = myDataset;
         this.context = context;
         this.activity =(HabitHomeActivity) activity;
+        this.mCache = new ArrayList<>();
     }
 
     // Create new views (invoked by the layout manager)
@@ -142,14 +146,32 @@ public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleVi
         return vh;
     }
 
+
+    public void Filter_name(String charText){
+        charText=charText.toLowerCase(Locale.getDefault());
+        mCache.clear();
+        if(charText.length()==0){
+            mCache.addAll(mDataset);
+        }else{
+            for(Habit wp:mDataset){
+                if(wp.get_habitName().toLowerCase(Locale.getDefault()).contains(charText)) {
+                    mCache.add(wp);
+                }
+            }
+            return;
+        }
+    }
+
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
+        Habit data = mCache.get(position);
+
         final ImageView img = new ImageView(context);
-        holder.imgView.setText(mDataset.get(position).get_habitName());
-        String []path = mDataset.get(position).getImageUri().split(" ");
-        if(mDataset.get(position).getImageUri().split(" ")[0].equals("Drawable")){
+        holder.imgView.setText(data.get_habitName());
+        String []path = data.getImageUri().split(" ");
+        if(data.getImageUri().split(" ")[0].equals("Drawable")){
             int imgDrawable = Integer.parseInt(path[1]);
             Picasso.get().load(imgDrawable).resize(2048,1152).into(img, new Callback() {
                 @Override
@@ -163,7 +185,7 @@ public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleVi
                 }
             });
         }else{
-            File imgFile = new  File(mDataset.get(position).getImageUri());
+            File imgFile = new  File(data.getImageUri());
             if(imgFile.exists()){
                 Picasso.get().load(Uri.fromFile(imgFile)).resize(2048,1152).into(img, new Callback() {
                     @Override
@@ -181,13 +203,13 @@ public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleVi
             }
         }
 
-        holder.textView.setText(mDataset.get(position).getDescription());
+        holder.textView.setText(data.getDescription());
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         int hours = 0;
         int mins = 0;
         try {
-            Date start = format.parse(mDataset.get(position).get_startingTime());
-            Date end = format.parse(mDataset.get(position).get_endingTime());
+            Date start = format.parse(data.get_startingTime());
+            Date end = format.parse(data.get_endingTime());
             long diff = end.getTime() - start.getTime(); //diff in milisecond
             diff /= 1000; // diff in second
 
@@ -220,17 +242,17 @@ public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleVi
             }
         });
 
-        String transitionName = mDataset.get(position).get_habitName();
+        String transitionName = data.get_habitName();
         ViewCompat.setTransitionName(holder.imgView,transitionName);
 
         holder.view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 Intent intent = new Intent(context,HabitInfoActivity.class);
-                intent.putExtra("habitID",mDataset.get(position).get_habitID());
+                intent.putExtra("habitID",data.get_habitID());
                 intent.putExtra("transitionName",transitionName);
-                intent.putExtra("habitThumbnail",mDataset.get(position).getImageUri());
-                intent.putExtra("habitThumbnail_text",mDataset.get(position).get_habitName());
+                intent.putExtra("habitThumbnail",data.getImageUri());
+                intent.putExtra("habitThumbnail_text",data.get_habitName());
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity,(View)holder.imgView,ViewCompat.getTransitionName(holder.imgView));
                 activity.startActivity(intent,options.toBundle());
                 return true;
@@ -249,6 +271,6 @@ public class HabitRecycleViewAdapter extends RecyclerView.Adapter<HabitRecycleVi
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return mCache.size();
     }
 }

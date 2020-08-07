@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tkpm31_project.Component.habitHome.HabitHomeActivity;
+import com.hcmus.tkpm31_project.Component.habitSumary.HabitSumaryActivity;
 import com.hcmus.tkpm31_project.Object.Habit;
 import com.hcmus.tkpm31_project.Object.TrainingDays;
 import com.hcmus.tkpm31_project.Object.User;
@@ -75,6 +76,9 @@ public class NotificationReceiver extends BroadcastReceiver {
                     }
                     if(HabitHomeActivity.active){
                         HabitHomeActivity.updateUI();
+                    }
+                    if(HabitSumaryActivity.active){
+                        HabitSumaryActivity.reloadUI();
                     }
 
                 }

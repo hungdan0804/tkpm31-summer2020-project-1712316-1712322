@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/bg_screen"
     android:id="@+id/coordinate"
-    tools:context=".Component.habitHome.HabitHomeActivity">
+    tools:context=".Component.habitHome.HabitHomeActivity"
+    android:focusableInTouchMode="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -59,8 +60,17 @@
                         android:textSize="@dimen/_16sdp"
                         android:textColor="@color/cardview_light_background"
                         android:gravity="center_vertical"/>
-
                     <ImageButton
+                        android:id="@+id/btn_sumary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_timeline_black_24dp"
+                        android:scaleType="fitCenter"
+                        android:background="@drawable/decor_circle"
+
+                        android:layout_weight="1"/>
+                    <ImageButton
+                        android:id="@+id/btn_profile"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_account_circle_white_24dp"
@@ -78,7 +88,8 @@
                 android:layout_gravity="center"
                 android:background="@drawable/decor_search_box"
                 android:iconifiedByDefault="false"
-                android:queryHint="@string/msg_query_hint" />
+                android:queryHint="@string/msg_query_hint"
+                />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

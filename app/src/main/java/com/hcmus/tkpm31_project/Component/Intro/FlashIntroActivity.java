@@ -54,8 +54,8 @@ public class FlashIntroActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_signup: startActivity(new Intent(this, SignUpActivity.class));break;
-            case R.id.btn_signin: startActivity(new Intent(this, SignInActivity.class));break;
+            case R.id.btn_signup: startActivity(new Intent(this, SignUpActivity.class));finish();break;
+            case R.id.btn_signin: startActivity(new Intent(this, SignInActivity.class));finish();break;
             default: break;
         }
     }

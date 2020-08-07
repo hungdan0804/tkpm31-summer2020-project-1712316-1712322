@@ -24,6 +24,7 @@ public class Habit implements Serializable {
     private String _endingTime;
     private String imageUri;
     private String description;
+    private boolean isDelete;
 
     public Habit(String _habitName, String _type, Date _startingDate, Date _endingDate,int _daysTraining, String _startingTime, String _endingTime,String imageUri,String description) {
         this._habitName = _habitName;
@@ -36,6 +37,16 @@ public class Habit implements Serializable {
         this.satisfidedRating = "";
         this.imageUri = imageUri;
         this.description =description;
+        isDelete=false;
+
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 
     public Date get_endingDate() {

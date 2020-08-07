@@ -75,6 +75,9 @@
     <string name="msg_day_of_week_6">Saturday</string>
     <string name="msg_day_of_week_7">Sunday</string>
 
+    //sumary
+    <string name="msg_statistic">Statistic</string>
+    <string name="msg_default_data">0m</string>
 
     //Notification
     <string name="msg_tracking">Tracking</string>
