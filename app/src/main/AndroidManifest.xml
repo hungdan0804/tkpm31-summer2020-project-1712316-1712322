@@ -17,7 +17,7 @@
         android:roundIcon="@drawable/icon_app"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Component.habitSumary.HabitSumaryActivity"></activity>
+        <activity android:name=".Component.habitSumary.HabitSumaryActivity" />
         <activity android:name=".Component.habitUpdateInfo.HabitUpdateInfoActivity" />
         <activity android:name=".Component.habitInfo.HabitInfoActivity" />
         <activity android:name=".Component.initializeHabit.InitializeHabitActivity" />
@@ -42,6 +42,8 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </receiver>
+        <receiver android:name=".Receiver.MyServiceReceiver">
         </receiver>
         <receiver android:name=".Receiver.NotificationReceiver">
             <intent-filter>

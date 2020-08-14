@@ -70,10 +70,10 @@
 
                         android:layout_weight="1"/>
                     <ImageButton
-                        android:id="@+id/btn_profile"
+                        android:id="@+id/btn_signout"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_account_circle_white_24dp"
+                        android:src="@drawable/ic_exit_to_app_black_24dp"
                         android:scaleType="fitCenter"
                         android:background="@drawable/decor_circle"
 

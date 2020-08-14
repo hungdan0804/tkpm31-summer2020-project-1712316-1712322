@@ -17,12 +17,18 @@ public class CurrentUser {
     private static final String USERNAME = "username";
     private static final String TOTALLIFETIME = "totalLifeTime";
     private static final String TODAYLIFETIME = "todayLifeTime";
+    private static final String FLAT_EVERYDAY_SERVICE = "FLAT-EVERYDAY-SERVICE";
 
 
     public CurrentUser(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
+    }
+
+    public void setFlatEverydayService(boolean value){
+        editor.putBoolean(FLAT_EVERYDAY_SERVICE,value);
+        editor.commit();
     }
 
     public void setCurrentUser(String username) {
@@ -52,4 +58,6 @@ public class CurrentUser {
     public long getTodayLifeTime() {
         return pref.getLong(TODAYLIFETIME, 0);
     }
+
+    public boolean getFlatEverydayService(){return pref.getBoolean(FLAT_EVERYDAY_SERVICE,false);}
 }
