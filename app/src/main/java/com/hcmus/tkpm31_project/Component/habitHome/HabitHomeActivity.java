@@ -11,6 +11,9 @@ import androidx.transition.Transition;
 import androidx.transition.TransitionManager;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -30,10 +33,13 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hcmus.tkpm31_project.Adapter.ViewPagerAdapter;
+import com.hcmus.tkpm31_project.Component.Intro.FlashIntroActivity;
 import com.hcmus.tkpm31_project.Component.habitSumary.HabitSumaryActivity;
 import com.hcmus.tkpm31_project.Component.initializeHabit.InitializeHabitActivity;
 import com.hcmus.tkpm31_project.Object.Habit;
 import com.hcmus.tkpm31_project.R;
+import com.hcmus.tkpm31_project.Receiver.AlarmReceiver;
+import com.hcmus.tkpm31_project.Util.AlarmHelper;
 import com.hcmus.tkpm31_project.Util.CurrentUser;
 import com.hcmus.tkpm31_project.Util.DateHelper;
 
@@ -53,6 +59,7 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
     private FloatingActionButton btn_insert;
     private ViewPager viewPager;
     private ImageButton btn_sumary;
+    private ImageButton btn_signout;
     private HabitHomePresenter presenter;
     private static HabitDataRecievedListener recievedListener;
     private static TextView totalLifeTime_box;
@@ -60,6 +67,7 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
     private static CurrentUser curUser;
     private String searchText ="";
     public static boolean active = false;
+    private Context context = this;
 
 
     @Override
@@ -199,6 +207,27 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
                startActivity(intent);
            }
        });
+
+       btn_signout.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               curUser.setCurrentUser(null);
+               curUser.setTodaylifetime(0);
+               curUser.setTotallifetime(0);
+               curUser.setFlatEverydayService(false);
+               removeMyService();
+               finish();
+               Intent intent = new Intent(getApplicationContext(), FlashIntroActivity.class);
+               startActivity(intent);
+           }
+
+           private void removeMyService() {
+               AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+               Intent intent = new Intent(context, AlarmReceiver.class);
+               PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 99999, intent, PendingIntent.FLAG_UPDATE_CURRENT|  Intent.FILL_IN_DATA);
+               alarmManager.cancel(pendingIntent);
+           }
+       });
     }
 
     private void initView() {
@@ -215,6 +244,7 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         totalLifeTime_box = (TextView)findViewById(R.id.sub_content_total);
         todayLifeTime_box = (TextView)findViewById(R.id.sub_content_today);
         btn_sumary = (ImageButton)findViewById(R.id.btn_sumary);
+        btn_signout = (ImageButton)findViewById(R.id.btn_signout);
         Resources res = getResources();
         Bitmap src = BitmapFactory.decodeResource(res, R.drawable.icon_app);
         RoundedBitmapDrawable dr =

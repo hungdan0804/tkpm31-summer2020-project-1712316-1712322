@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.hcmus.tkpm31_project.Receiver.AlarmReceiver;
+import com.hcmus.tkpm31_project.Receiver.MyServiceReceiver;
 
 import java.util.Calendar;
 
@@ -38,6 +39,15 @@ public class AlarmHelper {
     public void scheduleAlarm(Context context, Calendar timeStart,Calendar endingDate,int dayofweek, long reqCode,String habitName,long habitID){
         initVariable(context,endingDate,timeStart,reqCode,habitName,habitID);
         timeStart.setFirstDayOfWeek(dayofweek);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP,timeStart.getTimeInMillis(),pendingIntent);
+    }
+
+
+
+    public void scheduleMyService(Context context,Calendar timeStart){
+        alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        intent = new Intent(context, MyServiceReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(context,99999, intent, PendingIntent.FLAG_UPDATE_CURRENT| Intent.FILL_IN_DATA);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP,timeStart.getTimeInMillis(),pendingIntent);
     }
 }

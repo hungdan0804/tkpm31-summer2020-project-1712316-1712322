@@ -82,6 +82,10 @@
     //Notification
     <string name="msg_tracking">Tracking</string>
     <string name="msg_dismiss">Dismiss</string>
+
+    //Setting
+    <string name="msg_setting">Setting</string>
+    <string name="msg_signout">Sign Out</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
