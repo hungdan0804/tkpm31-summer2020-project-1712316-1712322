@@ -68,6 +68,7 @@ public class NotificationHelper extends ContextWrapper {
         }
         return mManager;
     }
+
     public NotificationCompat.Builder getChannelNotification(String habitName) {
 
         return new NotificationCompat.Builder(getApplicationContext(), channelID)
@@ -82,4 +83,17 @@ public class NotificationHelper extends ContextWrapper {
                 .setContentIntent(pendingIntent);
 
     }
+
+    public NotificationCompat.Builder getChannelNotification2(String habitName) {
+
+        return new NotificationCompat.Builder(getApplicationContext(), channelID)
+                .setContentTitle(habitName)
+                .setContentText("Congratulation !!! You have finished your trainning")
+                .setSmallIcon(R.drawable.ic_whatshot_black_24dp)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setPriority(Notification.PRIORITY_HIGH)
+                .setContentIntent(pendingIntent);
+
+    }
+
 }
