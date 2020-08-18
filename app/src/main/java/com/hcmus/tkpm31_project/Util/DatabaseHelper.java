@@ -22,7 +22,7 @@ public abstract class DatabaseHelper extends RoomDatabase {
     private static DatabaseHelper INSTANCE;
     public abstract HabitDAO habitDAO();
     public abstract ReminderDAO reminderDAO();
-    //public abstract PhoneUsageDAO phoneUsageDAO();
+    public abstract TrainingDaysDAO trainingDaysDAO();
     public abstract PhoneUsageDAO phoneUsageDAO();
 
     public static DatabaseHelper getINSTANCE(Context context){
