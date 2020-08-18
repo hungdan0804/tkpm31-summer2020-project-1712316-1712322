@@ -10,6 +10,7 @@ import com.hcmus.tkpm31_project.Object.PhoneUsage;
 import java.util.List;
 @Dao
 public interface PhoneUsageDAO {
+/*
     @Insert
     void insertOnlySinglePhoneUsage (PhoneUsage phoneUsage);
     @Insert
@@ -20,4 +21,6 @@ public interface PhoneUsageDAO {
     void updatePhoneUsage (PhoneUsage phoneUsage);
     @Delete
     void deletePhoneUsage (PhoneUsage phoneUsage);
+*/
 }
+
