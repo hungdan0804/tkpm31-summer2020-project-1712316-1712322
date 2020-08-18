@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface ReminderDAO {
     @Insert
-    void insertOnlySingleReminder (Reminder reminder);
+    long insertOnlySingleReminder (Reminder reminder);
     @Insert
     void insertMultipleReminders (List<Reminder> RemindersList);
     @Query("SELECT * FROM Reminder WHERE _reminderID = :reminderID")

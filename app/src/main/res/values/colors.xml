@@ -13,6 +13,7 @@
     <!-- dots active colors -->
     <color name="dot_light_screen">#ffffff</color>
 
+    <color name="white">#ffffffff</color>
 
     <!-- stroke color -->
     <color name="stroke_color">#E5E5E5</color>
@@ -26,6 +27,10 @@
         <item>@color/dot_light_screen</item>
         <item>@color/dot_light_screen</item>
     </array>
+
+
+
+
 
     <array name="array_dot_inactive">
         <item>@color/dot_dark_screen</item>

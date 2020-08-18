@@ -6,33 +6,46 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-import androidx.core.widget.NestedScrollView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.transition.Fade;
 import androidx.transition.Transition;
 import androidx.transition.TransitionManager;
+import androidx.viewpager.widget.ViewPager;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.hcmus.tkpm31_project.Adapter.ViewPagerAdapter;
+import com.hcmus.tkpm31_project.Component.Intro.FlashIntroActivity;
+import com.hcmus.tkpm31_project.Component.habitSumary.HabitSumaryActivity;
+import com.hcmus.tkpm31_project.Component.initializeHabit.InitializeHabitActivity;
+import com.hcmus.tkpm31_project.Object.Habit;
 import com.hcmus.tkpm31_project.R;
+import com.hcmus.tkpm31_project.Receiver.AlarmReceiver;
+import com.hcmus.tkpm31_project.Util.AlarmHelper;
+import com.hcmus.tkpm31_project.Util.CurrentUser;
+import com.hcmus.tkpm31_project.Util.DateHelper;
 
-public class HabitHomeActivity extends AppCompatActivity {
+import java.util.List;
+
+public class HabitHomeActivity extends AppCompatActivity implements HabitHomeContract.View{
 
     private BottomNavigationView navigation;
     private Toolbar toolbar;
@@ -43,6 +56,18 @@ public class HabitHomeActivity extends AppCompatActivity {
     private ImageView imageView;
     private SearchView searchView;
     private TextView app_title;
+    private FloatingActionButton btn_insert;
+    private ViewPager viewPager;
+    private ImageButton btn_sumary;
+    private ImageButton btn_signout;
+    private HabitHomePresenter presenter;
+    private static HabitDataRecievedListener recievedListener;
+    private static TextView totalLifeTime_box;
+    private static TextView todayLifeTime_box;
+    private static CurrentUser curUser;
+    private String searchText ="";
+    public static boolean active = false;
+    private Context context = this;
 
 
     @Override
@@ -50,17 +75,62 @@ public class HabitHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_home);
 
-        initView();
         initVariable();
+        initView();
         registerListener();
+        updateUI();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        container.requestFocus();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        active=true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        active=false;
+    }
+
+
+
+    public void setDataListener(HabitDataRecievedListener listener) {
+        this.recievedListener = listener;
     }
 
     private void initVariable() {
-        loadFragment(new HabitFragment(getApplicationContext()));
+        presenter = new HabitHomePresenter();
+        presenter.setView(this);
+        curUser=new CurrentUser(this);
+        presenter.setCurrentUser(curUser);
+
     }
 
+
     private void registerListener() {
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchText=newText;
+                recievedListener.onFilterData(newText);
+                return false;
+            }
+        });
+
+
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -87,6 +157,77 @@ public class HabitHomeActivity extends AppCompatActivity {
                 }
             }
         });
+        btn_insert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getBaseContext(), InitializeHabitActivity.class));
+            }
+        });
+       navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.navigation_habit:
+                        viewPager.setCurrentItem(0);
+
+                        return true;
+                    case R.id.navigation_spending:
+                        viewPager.setCurrentItem(1);
+
+                        return true;
+                }
+                return false;
+            }
+        });
+       viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+           @Override
+           public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+           }
+
+           @Override
+           public void onPageSelected(int position) {
+                switch (position){
+                    case 0: navigation.getMenu().findItem(R.id.navigation_habit).setChecked(true);break;
+                    case 1: navigation.getMenu().findItem(R.id.navigation_spending).setChecked(true);break;
+                }
+           }
+
+           @Override
+           public void onPageScrollStateChanged(int state) {
+
+           }
+       });
+
+       btn_sumary.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent intent = new Intent(getApplicationContext(), HabitSumaryActivity.class);
+               startActivity(intent);
+           }
+       });
+
+       btn_signout.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               curUser.setCurrentUser(null);
+               curUser.setTodaylifetime(0);
+               curUser.setTotallifetime(0);
+               curUser.setFlatEverydayService(false);
+               removeMyService();
+               finish();
+               Intent intent = new Intent(getApplicationContext(), FlashIntroActivity.class);
+               startActivity(intent);
+           }
+
+           private void removeMyService() {
+               AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+               Intent intent = new Intent(context, AlarmReceiver.class);
+               PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 99999, intent, PendingIntent.FLAG_UPDATE_CURRENT|  Intent.FILL_IN_DATA);
+               alarmManager.cancel(pendingIntent);
+           }
+       });
     }
 
     private void initView() {
@@ -100,39 +241,50 @@ public class HabitHomeActivity extends AppCompatActivity {
         imageView = (ImageView)findViewById(R.id.icon_app);
         searchView = (SearchView)findViewById(R.id.search_view);
         app_title=(TextView)findViewById(R.id.app_title);
+        totalLifeTime_box = (TextView)findViewById(R.id.sub_content_total);
+        todayLifeTime_box = (TextView)findViewById(R.id.sub_content_today);
+        btn_sumary = (ImageButton)findViewById(R.id.btn_sumary);
+        btn_signout = (ImageButton)findViewById(R.id.btn_signout);
         Resources res = getResources();
         Bitmap src = BitmapFactory.decodeResource(res, R.drawable.icon_app);
         RoundedBitmapDrawable dr =
                 RoundedBitmapDrawableFactory.create(res, src);
         dr.setCornerRadius(Math.max(src.getWidth(), src.getHeight()) / 2.0f);
         imageView.setImageDrawable(dr);
+        btn_insert = (FloatingActionButton)findViewById(R.id.btn_insert_habit);
+        viewPager =(ViewPager)findViewById(R.id.view_pager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),0);
+        HabitFragment habitFragment = new HabitFragment(getApplicationContext());
+        adapter.addFragment(habitFragment,"Habit");
+
+        presenter.loadData(this);
+        adapter.addFragment(new SpedingFragment(),"Habit");
+        viewPager.setAdapter(adapter);
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        presenter.loadData(this);
+    }
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment fragment;
-            switch (item.getItemId()) {
-                case R.id.navigation_shop:
-                    fragment = new HabitFragment(getApplicationContext());
-                    loadFragment(fragment);
-                    return true;
-                case R.id.navigation_gifts:
-                    fragment = new SpedingFragment();
-                    loadFragment(fragment);
-                    return true;
-            }
-            return false;
+
+    @Override
+    public void updateUI_Habit(List<Habit> data) {
+        try {
+            Thread.sleep(500);
+            recievedListener.onDataReceived(data,searchText);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-    };
+    }
 
-    private void loadFragment(Fragment fragment) {
-        // load fragment
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+    public static void updateUI() {
+        long todayLifeTime = curUser.getTodayLifeTime();
+        long totalLifeTime = curUser.getTotalLifeTime();
+        String str= DateHelper.TimeToString(todayLifeTime);
+        String str2 =DateHelper.TimeToString(totalLifeTime);
+        todayLifeTime_box.setText(str);
+        totalLifeTime_box.setText(str2);
     }
 }

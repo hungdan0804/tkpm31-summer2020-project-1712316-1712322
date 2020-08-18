@@ -9,10 +9,10 @@ public class Reminder {
     @NonNull
     @PrimaryKey (autoGenerate = true)
     private int _reminderID;
-    private int _habitID;
+    private long _habitID;
     private int _daysOfWeek;
 
-    public Reminder(int _habitID, int _daysOfWeek) {
+    public Reminder(long _habitID, int _daysOfWeek) {
         this._habitID = _habitID;
         this._daysOfWeek = _daysOfWeek;
     }
@@ -25,11 +25,11 @@ public class Reminder {
         this._reminderID = _reminderID;
     }
 
-    public int get_habitID() {
+    public long get_habitID() {
         return _habitID;
     }
 
-    public void set_habitID(int _habitID) {
+    public void set_habitID(long _habitID) {
         this._habitID = _habitID;
     }
 

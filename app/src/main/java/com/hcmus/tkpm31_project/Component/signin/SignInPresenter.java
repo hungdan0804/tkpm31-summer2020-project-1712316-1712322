@@ -1,6 +1,7 @@
 package com.hcmus.tkpm31_project.Component.signin;
 
 
+import android.net.Uri;
 import android.util.Log;
 import android.widget.ProgressBar;
 
@@ -15,7 +16,9 @@ import com.hcmus.tkpm31_project.Object.User;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class SignInPresenter implements SignInContract.Presenter {
 
@@ -45,7 +48,7 @@ public class SignInPresenter implements SignInContract.Presenter {
                         if (user != null) {
                             if(BCrypt.checkpw(password,user.getPassword())){
 
-                                mView.signinSuccess();
+                                mView.signinSuccess(user.getTotalLifeTime());
                             }else{
                                 mView.signinFailure(3);
                             }
@@ -59,6 +62,48 @@ public class SignInPresenter implements SignInContract.Presenter {
 
                 }
             });
+        }catch (Exception e){
+            Log.e("Insert",e.getMessage());
+        }
+    }
+
+    @Override
+    public void handleAuth(final String email,final String phoneNumber) {
+        final FirebaseDatabase database =FirebaseDatabase.getInstance();
+        final DatabaseReference ref=database.getReference();
+        try {
+
+            ref.child("user").orderByChild("username").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    if(dataSnapshot.getValue() != null){
+                        User user = new User();
+                        for(DataSnapshot data: dataSnapshot.getChildren()){
+                            user = data.getValue(User.class);
+                        }
+                        int totalTime = user.getTotalLifeTime();
+                        mView.authSuccess(email,totalTime);
+                    }else{
+
+                        String key = ref.push().getKey();
+                        User newUser= new User(email, BCrypt.hashpw("1234567",BCrypt.gensalt()),email,phoneNumber,0);
+                        Map<String,Object> userValue= newUser.toMap();
+                        Map<String, Object> childUpdates = new HashMap<>();
+                        childUpdates.put("/user/" +key, userValue);
+                        ref.updateChildren(childUpdates);
+                        mView.authSuccess(email,0);
+
+                    }
+                    ref.removeEventListener(this);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
         }catch (Exception e){
             Log.e("Insert",e.getMessage());
         }

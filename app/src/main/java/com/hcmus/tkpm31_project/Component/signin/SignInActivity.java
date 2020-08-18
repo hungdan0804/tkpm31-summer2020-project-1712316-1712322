@@ -28,8 +28,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.hcmus.tkpm31_project.Component.habitHome.HabitHomeActivity;
+import com.hcmus.tkpm31_project.Object.User;
 import com.hcmus.tkpm31_project.R;
+import com.hcmus.tkpm31_project.Util.AlarmHelper;
 import com.hcmus.tkpm31_project.Util.CurrentUser;
+
+import java.util.Calendar;
 
 public class SignInActivity extends AppCompatActivity implements SignInContract.View, View.OnClickListener {
     private LinearLayout linearLayout;
@@ -95,12 +99,25 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
     }
 
     @Override
-    public void signinSuccess() {
+    public void signinSuccess(int totalLifeTime) {
         progressBar.setVisibility(View.INVISIBLE);
         String username = edt_username.getText().toString();
         curUser.setCurrentUser(username);
+        curUser.setTotallifetime(totalLifeTime);
+        curUser.setFlatEverydayService(true);
+        startMyService();
         finish();
         startActivity(intent);
+    }
+
+    private void startMyService() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE,1);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        AlarmHelper alarmHelper = AlarmHelper.getInstanceAlarmHelper();
+        alarmHelper.scheduleMyService(getApplicationContext(),calendar);
     }
 
     @Override
@@ -111,6 +128,16 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
             case 2: txt_error.setText(R.string.msg_error_7);break;
             case 3: txt_error.setText(R.string.msg_error_8);break;
         }
+    }
+
+    @Override
+    public void authSuccess(String email,int totalLifeTime) {
+        progressBar.setVisibility(View.INVISIBLE);
+        curUser.setCurrentUser(email);
+        curUser.setTotallifetime(totalLifeTime);
+        curUser.setFlatEverydayService(true);
+        finish();
+        startActivity(intent);
     }
 
     @Override
@@ -154,10 +181,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
-                                curUser.setCurrentUser(user.getEmail());
-                                progressBar.setVisibility(View.INVISIBLE);
-                                finish();
-                                startActivity(intent);
+                                presenter.handleAuth(user.getEmail(),user.getPhoneNumber());
                             }
 
                         } else {

@@ -6,17 +6,31 @@
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon_app"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@drawable/icon_app"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Component.habitHome.HabitHomeActivity"></activity>
+        <activity android:name=".Component.habitSumary.HabitSumaryActivity" />
+        <activity android:name=".Component.habitUpdateInfo.HabitUpdateInfoActivity" />
+        <activity android:name=".Component.habitInfo.HabitInfoActivity" />
+        <activity android:name=".Component.initializeHabit.InitializeHabitActivity" />
+        <activity android:name=".Component.habitHome.HabitHomeActivity" />
         <activity android:name=".Component.signin.SignInActivity" />
         <activity android:name=".Component.signup.SignUpActivity" />
-        <activity android:name=".Component.Intro.SlideIntroActivity">
+        <activity
+            android:name=".Component.Intro.SlideIntroActivity"
+            android:inheritShowWhenLocked="true"
+            android:showOnLockScreen="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,6 +38,22 @@
             </intent-filter>
         </activity>
         <activity android:name=".Component.Intro.FlashIntroActivity" />
+
+        <receiver android:name=".Receiver.AlarmReceiver">
+            <intent-filter>
+                <action android:name="your.app.domain.NotificationService" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".Receiver.MyServiceReceiver">
+        </receiver>
+        <receiver android:name=".Receiver.NotificationReceiver">
+            <intent-filter>
+                <action android:name="ACTION_TRACKING" />
+                <action android:name="ACTION_DISMISS" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

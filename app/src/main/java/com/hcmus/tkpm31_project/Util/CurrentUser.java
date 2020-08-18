@@ -15,6 +15,10 @@ public class CurrentUser {
     private static final String PREF_NAME = "CUR-USER";
 
     private static final String USERNAME = "username";
+    private static final String TOTALLIFETIME = "totalLifeTime";
+    private static final String TODAYLIFETIME = "todayLifeTime";
+    private static final String FLAT_EVERYDAY_SERVICE = "FLAT-EVERYDAY-SERVICE";
+
 
     public CurrentUser(Context context) {
         this._context = context;
@@ -22,12 +26,38 @@ public class CurrentUser {
         editor = pref.edit();
     }
 
-    public void setCurrentUser(String username) {
-        editor.putString(USERNAME,username);
+    public void setFlatEverydayService(boolean value){
+        editor.putBoolean(FLAT_EVERYDAY_SERVICE,value);
         editor.commit();
     }
 
-    public String getCurrentUser() {
-        return pref.getString(USERNAME,null);
+    public void setCurrentUser(String username) {
+        editor.putString(USERNAME, username);
+        editor.commit();
     }
+
+    public void setTotallifetime(long totallifetime) {
+        editor.putLong(TOTALLIFETIME, totallifetime);
+        editor.commit();
+    }
+
+    public void setTodaylifetime(long todaylifetime) {
+        editor.putLong(TODAYLIFETIME, todaylifetime);
+        editor.commit();
+    }
+
+
+    public String getCurrentUser() {
+        return pref.getString(USERNAME, null);
+    }
+
+    public long getTotalLifeTime() {
+        return pref.getLong(TOTALLIFETIME, 0);
+    }
+
+    public long getTodayLifeTime() {
+        return pref.getLong(TODAYLIFETIME, 0);
+    }
+
+    public boolean getFlatEverydayService(){return pref.getBoolean(FLAT_EVERYDAY_SERVICE,false);}
 }
