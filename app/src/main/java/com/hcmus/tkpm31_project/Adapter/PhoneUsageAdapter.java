@@ -43,7 +43,7 @@ public class PhoneUsageAdapter extends RecyclerView.Adapter<PhoneUsageAdapter.Vi
         String usage= UtilPhoneUsage.getDurationBreakdown(appUsage.get_time());
         holder.txtAppUsage.setText(usage);
         holder.imgApp.setImageDrawable(appUsage.get_thumbnail());
-
+        holder.txtNum.setText(position);
         Locale locale = new Locale("vn", "VN");
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
 
@@ -56,13 +56,14 @@ public class PhoneUsageAdapter extends RecyclerView.Adapter<PhoneUsageAdapter.Vi
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgApp;
-        TextView txtAppName,txtAppUsage,txtDate;
+        TextView txtAppName,txtAppUsage,txtNum;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgApp = itemView.findViewById(R.id.imgApp);
             txtAppName = itemView.findViewById(R.id.txtAppName);
             txtAppUsage = itemView.findViewById(R.id.txtAppUsage);
+            txtNum=itemView.findViewById(R.id.txtNum);
         }
     }
 }

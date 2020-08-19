@@ -39,6 +39,8 @@ import com.hcmus.tkpm31_project.Adapter.ViewPagerAdapter;
 import com.hcmus.tkpm31_project.Component.Intro.FlashIntroActivity;
 import com.hcmus.tkpm31_project.Component.habitSumary.HabitSumaryActivity;
 import com.hcmus.tkpm31_project.Component.initializeHabit.InitializeHabitActivity;
+import com.hcmus.tkpm31_project.Component.usageHome.PhoneUsageFragment;
+import com.hcmus.tkpm31_project.Component.usageHome.PhoneUsageRanking;
 import com.hcmus.tkpm31_project.Object.Habit;
 import com.hcmus.tkpm31_project.R;
 import com.hcmus.tkpm31_project.Receiver.AlarmReceiver;
@@ -254,7 +256,7 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
        btn_top_10.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-
+                startActivity(new Intent(HabitHomeActivity.this,PhoneUsageRanking.class));
            }
        });
     }
@@ -289,10 +291,10 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         viewPager =(ViewPager)findViewById(R.id.view_pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),0);
         HabitFragment habitFragment = new HabitFragment(getApplicationContext());
+        PhoneUsageFragment phoneUsageFragment=new PhoneUsageFragment(getApplicationContext());
         adapter.addFragment(habitFragment,"Habit");
-
+        adapter.addFragment(phoneUsageFragment,"Usage");
         presenter.loadData(this);
-        adapter.addFragment(new SpedingFragment(),"Habit");
         viewPager.setAdapter(adapter);
     }
 

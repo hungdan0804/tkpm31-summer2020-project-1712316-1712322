@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.hcmus.tkpm31_project">
+
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
@@ -20,6 +21,11 @@
         android:roundIcon="@drawable/icon_app"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Component.usageHome.PhoneUsageRanking"
+            android:parentActivityName=".Component.habitHome.HabitHomeActivity"
+            >
+
+        </activity>
         <activity android:name=".Component.habitSumary.HabitSumaryActivity" />
         <activity android:name=".Component.habitUpdateInfo.HabitUpdateInfoActivity" />
         <activity android:name=".Component.habitInfo.HabitInfoActivity" />
@@ -46,8 +52,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".Receiver.MyServiceReceiver">
-        </receiver>
+        <receiver android:name=".Receiver.MyServiceReceiver"></receiver>
         <receiver android:name=".Receiver.NotificationReceiver">
             <intent-filter>
                 <action android:name="ACTION_TRACKING" />
