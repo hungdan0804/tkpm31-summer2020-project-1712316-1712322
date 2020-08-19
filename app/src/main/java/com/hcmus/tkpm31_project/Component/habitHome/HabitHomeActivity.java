@@ -20,9 +20,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +32,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hcmus.tkpm31_project.Adapter.ViewPagerAdapter;
@@ -52,6 +55,7 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
     private CoordinatorLayout container;
     private LinearLayout main;
     private AppBarLayout appBarLayout;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
     private LinearLayout sumary_box;
     private ImageView imageView;
     private SearchView searchView;
@@ -69,6 +73,7 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
     private String searchText ="";
     public static boolean active = false;
     private Context context = this;
+    private float DEFAULT_HEIGHT_APPBAR;
 
 
     @Override
@@ -139,6 +144,12 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
                     searchView.setVisibility(View.INVISIBLE);
                 }else{
                     searchView.setVisibility(View.VISIBLE);
+                    if(navigation.getMenu().findItem(R.id.navigation_spending).isChecked()){
+                        searchView.setVisibility(View.GONE);
+                        float heightDp = appBarLayout.getResources().getDisplayMetrics().heightPixels/6;
+                        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams)appBarLayout.getLayoutParams();
+                        lp.height = (int)heightDp;
+                    }
                 }
                 if(verticalOffset == 0){
                     Transition transition = new Fade();
@@ -190,8 +201,19 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
            @Override
            public void onPageSelected(int position) {
                 switch (position){
-                    case 0: navigation.getMenu().findItem(R.id.navigation_habit).setChecked(true);break;
-                    case 1: navigation.getMenu().findItem(R.id.navigation_spending).setChecked(true);break;
+                    case 0: navigation.getMenu().findItem(R.id.navigation_habit).setChecked(true);
+                    btn_sumary.setVisibility(View.VISIBLE);btn_top_10.setVisibility(View.GONE);
+                    btn_insert.setVisibility(View.VISIBLE);
+                    searchView.setVisibility(View.VISIBLE);
+                    CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams)appBarLayout.getLayoutParams();
+                    lp.height = (int)DEFAULT_HEIGHT_APPBAR;
+                    break;
+                    case 1: navigation.getMenu().findItem(R.id.navigation_spending).setChecked(true);
+                    btn_sumary.setVisibility(View.GONE);btn_top_10.setVisibility(View.VISIBLE);
+                    btn_insert.setVisibility(View.GONE);
+                    searchView.setVisibility(View.GONE);
+
+                    break;
                 }
            }
 
@@ -229,7 +251,14 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
                alarmManager.cancel(pendingIntent);
            }
        });
+       btn_top_10.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+
+           }
+       });
     }
+
 
     private void initView() {
         main= (LinearLayout)findViewById(R.id.frame_container);
@@ -237,6 +266,8 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         toolbar =(Toolbar) findViewById(R.id.toolbar);
         toolbar.bringToFront();
         appBarLayout =(AppBarLayout) findViewById(R.id.appbar);
+        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams)appBarLayout.getLayoutParams();
+        DEFAULT_HEIGHT_APPBAR = lp.height;
         container =(CoordinatorLayout) findViewById(R.id.coordinate);
         sumary_box =(LinearLayout) findViewById(R.id.total_box);
         imageView = (ImageView)findViewById(R.id.icon_app);
@@ -246,6 +277,8 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         todayLifeTime_box = (TextView)findViewById(R.id.sub_content_today);
         btn_sumary = (ImageButton)findViewById(R.id.btn_sumary);
         btn_signout = (ImageButton)findViewById(R.id.btn_signout);
+        btn_top_10 = (ImageButton)findViewById(R.id.btn_top_10);
+        collapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
         Resources res = getResources();
         Bitmap src = BitmapFactory.decodeResource(res, R.drawable.icon_app);
         RoundedBitmapDrawable dr =
