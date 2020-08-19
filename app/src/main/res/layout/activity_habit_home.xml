@@ -60,6 +60,16 @@
                         android:textSize="@dimen/_16sdp"
                         android:textColor="@color/cardview_light_background"
                         android:gravity="center_vertical"/>
+
+                    <ImageButton
+                        android:id="@+id/btn_top_10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_timeline_black_24dp"
+                        android:scaleType="fitXY"
+                        android:layout_weight="1"
+                        android:background="@drawable/decor_circle"
+                        android:visibility="gone"/>
                     <ImageButton
                         android:id="@+id/btn_sumary"
                         android:layout_width="wrap_content"

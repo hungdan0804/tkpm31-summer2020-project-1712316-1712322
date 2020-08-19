@@ -60,6 +60,7 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
     private ViewPager viewPager;
     private ImageButton btn_sumary;
     private ImageButton btn_signout;
+    private ImageButton btn_top_10;
     private HabitHomePresenter presenter;
     private static HabitDataRecievedListener recievedListener;
     private static TextView totalLifeTime_box;
