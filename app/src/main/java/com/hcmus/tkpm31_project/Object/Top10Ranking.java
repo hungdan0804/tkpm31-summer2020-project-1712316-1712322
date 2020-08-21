@@ -6,5 +6,5 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Top10Ranking {
-    public abstract ArrayList<PhoneUsage> top10Ranking(Context context);
+    public abstract ArrayList<PhoneUsage> top10Ranking(Context context,long startTime,long endTime);
 }

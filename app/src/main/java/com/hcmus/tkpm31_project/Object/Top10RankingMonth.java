@@ -9,16 +9,21 @@ import java.util.List;
 
 public class Top10RankingMonth extends Top10Ranking {
     @Override
-    public ArrayList<PhoneUsage> top10Ranking(Context context) {
+    public ArrayList<PhoneUsage> top10Ranking(Context context,long startTime,long endTime) {
+        PhoneUsageFragment psf=new PhoneUsageFragment(context);
 
-        ArrayList<PhoneUsage> listUsageMonth= PhoneUsageFragment.listUsageMonth(context);
+        ArrayList<PhoneUsage> listUsageMonth= psf.getListUsage(startTime,endTime);
         ArrayList<PhoneUsage>res=new ArrayList<>();
-        for(int i=0;i<10;i++)
+        if(listUsageMonth.size()>0)
         {
-            PhoneUsage a=listUsageMonth.get(i);
-            a.set_stt(i+1);
-            res.add(a);
+            for(int i=0;i<listUsageMonth.size();i++)
+            {
+                PhoneUsage a=listUsageMonth.get(i);
+                a.set_stt(i+1);
+                res.add(a);
+            }
         }
+
         return res;
     }
 }
