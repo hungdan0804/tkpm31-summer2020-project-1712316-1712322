@@ -105,6 +105,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
         curUser.setCurrentUser(username);
         curUser.setTotallifetime(totalLifeTime);
         curUser.setFlatEverydayService(true);
+        curUser.setCreatedDate(createdDate);
         startMyService();
         finish();
         startActivity(intent);
@@ -136,6 +137,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
         curUser.setCurrentUser(email);
         curUser.setTotallifetime(totalLifeTime);
         curUser.setFlatEverydayService(true);
+        curUser.setCreatedDate(createdDate);
         finish();
         startActivity(intent);
     }
