@@ -43,7 +43,8 @@ public class PhoneUsageAdapter extends RecyclerView.Adapter<PhoneUsageAdapter.Vi
         String usage= UtilPhoneUsage.getDurationBreakdown(appUsage.get_time());
         holder.txtAppUsage.setText(usage);
         holder.imgApp.setImageDrawable(appUsage.get_thumbnail());
-        holder.txtNum.setText(position);
+        String stt=Integer.toString(appUsage.get_stt());
+        //holder.txtNum.setText(appUsage.get_stt());
         Locale locale = new Locale("vn", "VN");
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
 

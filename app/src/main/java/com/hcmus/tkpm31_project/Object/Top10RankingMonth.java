@@ -16,6 +16,7 @@ public class Top10RankingMonth extends Top10Ranking {
         for(int i=0;i<10;i++)
         {
             PhoneUsage a=listUsageMonth.get(i);
+            a.set_stt(i+1);
             res.add(a);
         }
         return res;

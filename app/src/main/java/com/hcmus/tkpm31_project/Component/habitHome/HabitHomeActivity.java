@@ -48,6 +48,7 @@ import com.hcmus.tkpm31_project.Util.AlarmHelper;
 import com.hcmus.tkpm31_project.Util.CurrentUser;
 import com.hcmus.tkpm31_project.Util.DateHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HabitHomeActivity extends AppCompatActivity implements HabitHomeContract.View{
@@ -86,6 +87,7 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         initVariable();
         initView();
         registerListener();
+
         updateUI();
     }
 
@@ -294,6 +296,7 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         PhoneUsageFragment phoneUsageFragment=new PhoneUsageFragment(getApplicationContext());
         adapter.addFragment(habitFragment,"Habit");
         adapter.addFragment(phoneUsageFragment,"Usage");
+
         presenter.loadData(this);
         viewPager.setAdapter(adapter);
     }
@@ -315,6 +318,11 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         }
     }
 
+    public void updateUI_Usage()
+    {
+        PhoneUsageFragment a=new PhoneUsageFragment(context);
+        todayLifeTime_box.setText(a.getTotalTimeString());
+    }
     public static void updateUI() {
         long todayLifeTime = curUser.getTodayLifeTime();
         long totalLifeTime = curUser.getTotalLifeTime();

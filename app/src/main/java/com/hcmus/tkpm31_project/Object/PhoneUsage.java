@@ -16,7 +16,7 @@ public class PhoneUsage {
     protected Drawable _thumbnail;
     protected String _nameApp;
     protected long _time;
-
+    protected int _stt;
     public PhoneUsage() {
     }
 
@@ -27,15 +27,6 @@ public class PhoneUsage {
 
     public PhoneUsage( Drawable _thumbnail,String _nameApp, long _time, String _packetName) {
         this._packetName = _packetName;
-        this._thumbnail = _thumbnail;
-        this._nameApp = _nameApp;
-        this._time = _time;
-    }
-
-    public PhoneUsage(int _phoneUsageID, String _packetName, Date _createdDate, Drawable _thumbnail, String _nameApp, long _time) {
-        this._phoneUsageID = _phoneUsageID;
-        this._packetName = _packetName;
-        this._createdDate = _createdDate;
         this._thumbnail = _thumbnail;
         this._nameApp = _nameApp;
         this._time = _time;
@@ -89,6 +80,26 @@ public class PhoneUsage {
         this._time = _time;
     }
 
+    public int get_stt() {
+        return _stt;
+    }
+
+    public void set_stt(int _stt) {
+        this._stt = _stt;
+    }
+
+    @Override
+    public String toString() {
+        return "PhoneUsage{" +
+                "_phoneUsageID=" + _phoneUsageID +
+                ", _packetName='" + _packetName + '\'' +
+                ", _createdDate=" + _createdDate +
+                ", _thumbnail=" + _thumbnail +
+                ", _nameApp='" + _nameApp + '\'' +
+                ", _time=" + _time +
+                ", _stt=" + _stt +
+                '}';
+    }
 
     public static boolean existedAppUsage(String nameApp, ArrayList<PhoneUsage> list)
     {

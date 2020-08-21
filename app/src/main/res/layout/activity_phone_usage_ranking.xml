@@ -7,13 +7,19 @@
     android:orientation="vertical"
     tools:context=".Component.usageHome.PhoneUsageRanking">
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tvTitle"
-        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="#FFFFFF" />
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:textSize="30dp"
+            android:text="TOP RANKING"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,8 +27,9 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:text="DAY"
+            android:textSize="25dp"
             android:id="@+id/btnTopDay"
             />
         <Button
@@ -30,6 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/btnTopMonth"
+            android:textSize="25dp"
+
             android:text="MONTH"
             />
     </LinearLayout>
@@ -38,16 +47,17 @@
         android:layout_height="wrap_content"
         android:gravity="center">
         <TextView
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/txtTime"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="10dp"
+            android:textSize="25dp"
+            android:textStyle="bold"
             />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="25dp"
         >
         <androidx.recyclerview.widget.RecyclerView
 

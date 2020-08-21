@@ -15,6 +15,7 @@
 
     <color name="white">#ffffffff</color>
 
+    <color name="bluewhite">#79D5FF</color>
     <!-- stroke color -->
     <color name="stroke_color">#E5E5E5</color>
 
