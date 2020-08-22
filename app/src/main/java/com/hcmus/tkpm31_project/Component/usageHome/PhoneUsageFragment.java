@@ -377,10 +377,7 @@ public class PhoneUsageFragment extends Fragment implements OnChartValueSelected
         totalTime=0;
         listAppUsage=getListUsage(startTime,endTime);
         ArrayList<Long> listTimeWeek=getTotalTimeEachDayWeek(context);
-        for(long a:listTimeWeek)
-        {
-            System.out.println("Day time in week:"+UtilPhoneUsage.getDurationBreakdown(a));
-        }
+
         appUsageAdapter=new PhoneUsageAdapter(context,listAppUsage);
         recyclerView.setAdapter(appUsageAdapter);
 

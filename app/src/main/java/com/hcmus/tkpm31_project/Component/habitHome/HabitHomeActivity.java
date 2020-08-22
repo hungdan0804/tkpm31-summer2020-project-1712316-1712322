@@ -42,13 +42,19 @@ import com.hcmus.tkpm31_project.Component.initializeHabit.InitializeHabitActivit
 import com.hcmus.tkpm31_project.Component.usageHome.PhoneUsageFragment;
 import com.hcmus.tkpm31_project.Component.usageHome.PhoneUsageRanking;
 import com.hcmus.tkpm31_project.Object.Habit;
+import com.hcmus.tkpm31_project.Object.PhoneUsage;
 import com.hcmus.tkpm31_project.R;
 import com.hcmus.tkpm31_project.Receiver.AlarmReceiver;
 import com.hcmus.tkpm31_project.Util.AlarmHelper;
 import com.hcmus.tkpm31_project.Util.CurrentUser;
 import com.hcmus.tkpm31_project.Util.DateHelper;
+import com.hcmus.tkpm31_project.Util.UtilPhoneUsage;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class HabitHomeActivity extends AppCompatActivity implements HabitHomeContract.View{
@@ -89,6 +95,9 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         registerListener();
 
         updateUI();
+
+
+
     }
 
     @Override
@@ -211,12 +220,13 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
                     searchView.setVisibility(View.VISIBLE);
                     CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams)appBarLayout.getLayoutParams();
                     lp.height = (int)DEFAULT_HEIGHT_APPBAR;
+                    updateUI();
                     break;
                     case 1: navigation.getMenu().findItem(R.id.navigation_spending).setChecked(true);
                     btn_sumary.setVisibility(View.GONE);btn_top_10.setVisibility(View.VISIBLE);
                     btn_insert.setVisibility(View.GONE);
                     searchView.setVisibility(View.GONE);
-
+                    updateUI_Usage();
                     break;
                 }
            }
@@ -297,6 +307,10 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         adapter.addFragment(habitFragment,"Habit");
         adapter.addFragment(phoneUsageFragment,"Usage");
 
+
+
+
+
         presenter.loadData(this);
         viewPager.setAdapter(adapter);
     }
@@ -318,10 +332,47 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         }
     }
 
-    public void updateUI_Usage()
-    {
-        PhoneUsageFragment a=new PhoneUsageFragment(context);
-        todayLifeTime_box.setText(a.getTotalTimeString());
+    public void updateUI_Usage()  {
+        PhoneUsageFragment phoneUsageFragment=new PhoneUsageFragment(context);
+        //get created date of current user
+        String createdDate=curUser.getCreatedDate();
+        System.out.println("Created date:"+createdDate);
+        String[] separated = createdDate.split("/");
+        Calendar calendar=Calendar.getInstance();
+        System.out.println("Month created:"+Integer.valueOf(separated[1]));
+
+        calendar.set(Calendar.YEAR,Integer.valueOf(separated[2]));
+        calendar.set(Calendar.MONTH,Integer.valueOf(separated[1])-1);
+
+        calendar.set(Calendar.DATE,Integer.valueOf(separated[0]));
+        calendar.set(Calendar.HOUR_OF_DAY, 0); // ! clear would not reset the hour of day !
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+
+
+
+
+        long startTime=calendar.getTimeInMillis();
+
+        //now
+        Calendar now=Calendar.getInstance();
+        long endTime=now.getTimeInMillis();
+
+        ArrayList<PhoneUsage>listUsage=phoneUsageFragment.getListUsage(startTime,endTime);
+        long total=0;
+        for(int i=0;i<listUsage.size();i++)
+        {
+            total+=listUsage.get(i).get_time();
+
+        }
+        String totalTimeUsage=UtilPhoneUsage.getDurationBreakdown(total);
+
+        totalLifeTime_box.setText(totalTimeUsage);
+
+
+        String todayTimeUsage=UtilPhoneUsage.getDurationBreakdown(phoneUsageFragment.getTotalTimeToDay());
+
+        todayLifeTime_box.setText(todayTimeUsage);
     }
     public static void updateUI() {
         long todayLifeTime = curUser.getTodayLifeTime();
@@ -331,4 +382,6 @@ public class HabitHomeActivity extends AppCompatActivity implements HabitHomeCon
         todayLifeTime_box.setText(str);
         totalLifeTime_box.setText(str2);
     }
+
+
 }
