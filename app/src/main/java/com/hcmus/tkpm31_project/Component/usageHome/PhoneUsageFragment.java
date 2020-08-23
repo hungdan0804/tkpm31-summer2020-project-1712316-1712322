@@ -141,11 +141,25 @@ public class PhoneUsageFragment extends Fragment implements OnChartValueSelected
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == resultCode){
-            Toast.makeText(context, "You can see app usage now",Toast.LENGTH_LONG).show();
+        if(requestCode == RESULT_USAGE_ACCESS){
+            Calendar calendar = Calendar.getInstance();
+            long endTime = calendar.getTimeInMillis();
+            //now
+            Calendar today = Calendar.getInstance();
+            today.set(Calendar.HOUR_OF_DAY, 0); // ! clear would not reset the hour of day !
+            today.clear(Calendar.MINUTE);
+            today.clear(Calendar.SECOND);
+            today.clear(Calendar.MILLISECOND);
+            long startTime = today.getTimeInMillis();
+            listAppUsage.clear();
+            listAppUsage.addAll(getListUsage(startTime,endTime));
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    appUsageAdapter.notifyDataSetChanged();
+                }
+            });
 
-        }else {
-            Toast.makeText(context, "You can't see app usage",Toast.LENGTH_LONG).show();
         }
     }
 
