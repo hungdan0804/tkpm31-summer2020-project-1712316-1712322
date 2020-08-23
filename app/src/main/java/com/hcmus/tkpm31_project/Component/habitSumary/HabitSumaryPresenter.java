@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.hcmus.tkpm31_project.Object.Habit;
 import com.hcmus.tkpm31_project.Object.TrainingDays;
-import com.hcmus.tkpm31_project.Object.TrainningDaysWithHabitType;
+import com.hcmus.tkpm31_project.ObjectRelationship.TrainningDaysWithHabitType;
 import com.hcmus.tkpm31_project.Util.DatabaseHelper;
 import com.hcmus.tkpm31_project.Util.DateHelper;
 
