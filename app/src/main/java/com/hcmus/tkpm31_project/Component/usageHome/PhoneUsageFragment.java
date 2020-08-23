@@ -157,9 +157,9 @@ public class PhoneUsageFragment extends Fragment implements OnChartValueSelected
                 @Override
                 public void run() {
                     appUsageAdapter.notifyDataSetChanged();
+                    createChart();
                 }
             });
-
         }
     }
 
