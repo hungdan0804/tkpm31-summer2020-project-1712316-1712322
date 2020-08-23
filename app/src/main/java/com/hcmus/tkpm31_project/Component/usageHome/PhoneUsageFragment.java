@@ -1,6 +1,7 @@
 package com.hcmus.tkpm31_project.Component.usageHome;
 
 
+import android.Manifest;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
@@ -41,6 +42,7 @@ import com.hcmus.tkpm31_project.Object.PhoneUsage;
 import com.hcmus.tkpm31_project.R;
 import com.hcmus.tkpm31_project.Util.UStats;
 import com.hcmus.tkpm31_project.Util.UtilPhoneUsage;
+import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
@@ -67,6 +69,8 @@ public class PhoneUsageFragment extends Fragment implements OnChartValueSelected
     private Context context;
     static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     public static final String TAG = UStats.class.getSimpleName();
+    private int RESULT_USAGE_ACCESS = 200;
+    private final int MY_PERMISSION_REQUEST_ACCESS_USAGE = 100;
 
     public PhoneUsageFragment(Context context){
         this.context=context;
@@ -92,8 +96,8 @@ public class PhoneUsageFragment extends Fragment implements OnChartValueSelected
 
         //Check if permission enabled
         if (UStats.getUsageStatsList(context).isEmpty()){
-            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-            startActivity(intent);
+            requestPermissions(new String[] { Manifest.permission.PACKAGE_USAGE_STATS },
+                    MY_PERMISSION_REQUEST_ACCESS_USAGE);
         }
         loadRecyclerViewDataDay(context);
 
@@ -122,7 +126,28 @@ public class PhoneUsageFragment extends Fragment implements OnChartValueSelected
         super.onResume();
 
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
+        switch (requestCode) {
+            case MY_PERMISSION_REQUEST_ACCESS_USAGE:
+                Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+                startActivityForResult(intent,RESULT_USAGE_ACCESS);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == resultCode){
+            Toast.makeText(context, "You can see app usage now",Toast.LENGTH_LONG).show();
+
+        }else {
+            Toast.makeText(context, "You can't see app usage",Toast.LENGTH_LONG).show();
+        }
+    }
 
 
     public interface OnFragmentInteractionListener {
@@ -358,6 +383,8 @@ public class PhoneUsageFragment extends Fragment implements OnChartValueSelected
         }
         return res;
     }
+
+    //load du lieu recycler
     public void loadRecyclerViewDataDay(Context context)
     {
         Calendar calendar = Calendar.getInstance();
