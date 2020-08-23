@@ -159,7 +159,7 @@ public class PhoneUsageFragment extends Fragment implements OnChartValueSelected
                     appUsageAdapter.notifyDataSetChanged();
                 }
             });
-
+            createChart();
         }
     }
 
