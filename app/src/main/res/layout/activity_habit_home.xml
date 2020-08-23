@@ -13,11 +13,11 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:minHeight="@dimen/_35sdp"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/_160sdp">
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_160sdp"
+            android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
             app:toolbarId="@+id/toolbar"
             android:fitsSystemWindows="true"
@@ -60,6 +60,16 @@
                         android:textSize="@dimen/_16sdp"
                         android:textColor="@color/cardview_light_background"
                         android:gravity="center_vertical"/>
+
+                    <ImageButton
+                        android:id="@+id/btn_top_10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/decor_circle"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_assessment_black_24dp"
+                        android:visibility="gone" />
                     <ImageButton
                         android:id="@+id/btn_sumary"
                         android:layout_width="wrap_content"
@@ -67,7 +77,6 @@
                         android:src="@drawable/ic_timeline_black_24dp"
                         android:scaleType="fitCenter"
                         android:background="@drawable/decor_circle"
-
                         android:layout_weight="1"/>
                     <ImageButton
                         android:id="@+id/btn_signout"
@@ -89,6 +98,7 @@
                 android:background="@drawable/decor_search_box"
                 android:iconifiedByDefault="false"
                 android:queryHint="@string/msg_query_hint"
+                android:visibility="gone"
                 />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

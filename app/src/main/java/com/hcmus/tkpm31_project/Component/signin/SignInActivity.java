@@ -99,12 +99,13 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
     }
 
     @Override
-    public void signinSuccess(int totalLifeTime) {
+    public void signinSuccess(int totalLifeTime,String createdDate) {
         progressBar.setVisibility(View.INVISIBLE);
         String username = edt_username.getText().toString();
         curUser.setCurrentUser(username);
         curUser.setTotallifetime(totalLifeTime);
         curUser.setFlatEverydayService(true);
+        curUser.setCreatedDate(createdDate);
         startMyService();
         finish();
         startActivity(intent);
@@ -131,11 +132,12 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
     }
 
     @Override
-    public void authSuccess(String email,int totalLifeTime) {
+    public void authSuccess(String email,int totalLifeTime,String createdDate) {
         progressBar.setVisibility(View.INVISIBLE);
         curUser.setCurrentUser(email);
         curUser.setTotallifetime(totalLifeTime);
         curUser.setFlatEverydayService(true);
+        curUser.setCreatedDate(createdDate);
         finish();
         startActivity(intent);
     }

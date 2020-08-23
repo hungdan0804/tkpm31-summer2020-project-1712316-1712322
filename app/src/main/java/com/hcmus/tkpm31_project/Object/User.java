@@ -1,5 +1,7 @@
 package com.hcmus.tkpm31_project.Object;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +11,7 @@ public class User {
     protected String email;
     protected String phoneNumber;
     protected int totalLifeTime;
+    protected String createdDate;
 
     public User(){
 
@@ -20,6 +23,10 @@ public class User {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.totalLifeTime=totalLifeTime;
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
+        createdDate = sdf.format(calendar.getTime());
+
     }
 
     public int getTotalLifeTime() {
@@ -62,6 +69,14 @@ public class User {
         this.phoneNumber = phoneNum;
     }
 
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
     public Map<String,Object> toMap(){
         HashMap<String,Object> res=new HashMap<>();
         res.put("username",this.username);
@@ -69,6 +84,7 @@ public class User {
         res.put("email",this.email);
         res.put("phoneNumber",this.phoneNumber);
         res.put("totalLifeTime",this.totalLifeTime);
+        res.put("createdDate",this.createdDate);
         return res;
     }
 }

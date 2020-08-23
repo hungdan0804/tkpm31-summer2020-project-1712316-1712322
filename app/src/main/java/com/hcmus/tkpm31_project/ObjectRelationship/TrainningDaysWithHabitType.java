@@ -1,4 +1,4 @@
-package com.hcmus.tkpm31_project.Object;
+package com.hcmus.tkpm31_project.ObjectRelationship;
 
 public class TrainningDaysWithHabitType {
     private String habiType;

@@ -48,7 +48,7 @@ public class SignInPresenter implements SignInContract.Presenter {
                         if (user != null) {
                             if(BCrypt.checkpw(password,user.getPassword())){
 
-                                mView.signinSuccess(user.getTotalLifeTime());
+                                mView.signinSuccess(user.getTotalLifeTime(),user.getCreatedDate());
                             }else{
                                 mView.signinFailure(3);
                             }
@@ -83,7 +83,7 @@ public class SignInPresenter implements SignInContract.Presenter {
                             user = data.getValue(User.class);
                         }
                         int totalTime = user.getTotalLifeTime();
-                        mView.authSuccess(email,totalTime);
+                        mView.authSuccess(email,totalTime,user.getCreatedDate());
                     }else{
 
                         String key = ref.push().getKey();
@@ -92,7 +92,7 @@ public class SignInPresenter implements SignInContract.Presenter {
                         Map<String, Object> childUpdates = new HashMap<>();
                         childUpdates.put("/user/" +key, userValue);
                         ref.updateChildren(childUpdates);
-                        mView.authSuccess(email,0);
+                        mView.authSuccess(email,0,newUser.getCreatedDate());
 
                     }
                     ref.removeEventListener(this);

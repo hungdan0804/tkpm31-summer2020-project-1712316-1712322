@@ -16,7 +16,7 @@ import com.hcmus.tkpm31_project.Object.PhoneUsage;
 import com.hcmus.tkpm31_project.Object.Reminder;
 import com.hcmus.tkpm31_project.Object.TrainingDays;
 
-@Database(entities = {Habit.class, Reminder.class, TrainingDays.class, PhoneUsage.class}, version = 1, exportSchema = false)
+@Database(entities = {Habit.class, Reminder.class, TrainingDays.class/*, PhoneUsage.class*/}, version = 1, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class DatabaseHelper extends RoomDatabase {
     private static DatabaseHelper INSTANCE;

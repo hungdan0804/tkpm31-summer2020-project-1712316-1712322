@@ -18,6 +18,7 @@ public class CurrentUser {
     private static final String TOTALLIFETIME = "totalLifeTime";
     private static final String TODAYLIFETIME = "todayLifeTime";
     private static final String FLAT_EVERYDAY_SERVICE = "FLAT-EVERYDAY-SERVICE";
+    private static final String CREATED_DATE = "CREATED-DATE";
 
 
     public CurrentUser(Context context) {
@@ -46,6 +47,13 @@ public class CurrentUser {
         editor.commit();
     }
 
+    public void setCreatedDate(String date){
+        editor.putString(CREATED_DATE, date);
+        editor.commit();
+    }
+
+
+    public String getCreatedDate(){return pref.getString(CREATED_DATE,"");}
 
     public String getCurrentUser() {
         return pref.getString(USERNAME, null);

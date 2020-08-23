@@ -1,6 +1,7 @@
 package com.hcmus.tkpm31_project.Component.signup;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import com.hcmus.tkpm31_project.R;
 
 public class SignUpActivity extends AppCompatActivity implements SignUpContract.View{
 
-    private LinearLayout linearLayout;
+    private NestedScrollView linearLayout;
     private TextInputEditText edt_username;
     private TextInputEditText edt_password;
     private TextInputEditText edt_conf_password;
@@ -79,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
         txt_error=(TextView)findViewById(R.id.txt_error);
         progressBar=(ProgressBar)findViewById(R.id.progress_bar);
         progressBar.bringToFront();
-        linearLayout=(LinearLayout)findViewById(R.id.signup_form);
+        linearLayout=(NestedScrollView)findViewById(R.id.signup_form);
         linearLayout.bringToFront();
     }
 
